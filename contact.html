@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Contact Holostasis with project details for photography, edits, graphic design, and digital visual work."
+    />
+    <title>Contact | Holostasis</title>
+    <link rel="preload" href="assets/bg-blurred.webp" as="image" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="page-noise" aria-hidden="true"></div>
+
+    <header class="site-header">
+      <a class="brand home-brand" href="index.html" aria-label="Home">
+        <span class="brand-mark"><img src="assets/finished-logo.webp" alt="" /></span>
+        <span>Home</span>
+      </a>
+
+      <button class="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false">
+        <span></span>
+        <span></span>
+      </button>
+
+      <nav class="site-nav" aria-label="Main navigation">
+        <a href="index.html#projects">Projects</a>
+        <a href="contact.html" aria-current="page">Contact</a>
+        <a href="https://www.fiverr.com/holostasis?public_mode=true" target="_blank" rel="noopener">Fiverr</a>
+      </nav>
+    </header>
+
+    <main class="project-main contact-page">
+      <section class="contact-hero glass is-visible" data-reveal>
+        <div class="contact-intro">
+          <a class="back-link" href="index.html">Back home</a>
+          <p class="eyebrow">Project Enquiry</p>
+          <h1>Tell Me What You Need</h1>
+          <p>
+            For custom work outside Fiverr, send over the main details and I will reply with the next
+            steps, timing, and what I need from you.
+          </p>
+        </div>
+
+        <form class="contact-form" data-contact-form>
+          <div class="form-grid">
+            <label>
+              <span>Name</span>
+              <input name="name" type="text" autocomplete="name" required />
+            </label>
+
+            <label>
+              <span>Email</span>
+              <input name="email" type="email" autocomplete="email" required />
+            </label>
+
+            <div class="field-control" data-required-dropdown>
+              <span class="field-label">Project Type</span>
+              <div class="custom-select" data-custom-select>
+                <input type="hidden" name="projectType" />
+                <button
+                  class="custom-select-toggle is-placeholder"
+                  type="button"
+                  aria-expanded="false"
+                  aria-controls="project-type-options"
+                >
+                  <span data-select-label>Select one</span>
+                </button>
+                <div class="custom-select-menu" id="project-type-options" role="listbox">
+                  <button class="custom-select-option" type="button" role="option" data-value="Graphic design">Graphic design</button>
+                  <button class="custom-select-option" type="button" role="option" data-value="Photo editing">Photo editing</button>
+                  <button class="custom-select-option" type="button" role="option" data-value="Social media visuals">Social media visuals</button>
+                  <button class="custom-select-option" type="button" role="option" data-value="Branding visuals">Branding visuals</button>
+                  <button class="custom-select-option" type="button" role="option" data-value="Photography">Photography</button>
+                  <button class="custom-select-option" type="button" role="option" data-value="Other">Other</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="field-control">
+              <span class="field-label">Budget</span>
+              <div class="custom-select" data-custom-select>
+                <input type="hidden" name="budget" />
+                <button
+                  class="custom-select-toggle is-placeholder"
+                  type="button"
+                  aria-expanded="false"
+                  aria-controls="budget-options"
+                >
+                  <span data-select-label>Select one</span>
+                </button>
+                <div class="custom-select-menu" id="budget-options" role="listbox">
+                  <button class="custom-select-option" type="button" role="option" data-value="Under GBP 50">Under GBP 50</button>
+                  <button class="custom-select-option" type="button" role="option" data-value="GBP 50-100">GBP 50-100</button>
+                  <button class="custom-select-option" type="button" role="option" data-value="GBP 100-250">GBP 100-250</button>
+                  <button class="custom-select-option" type="button" role="option" data-value="GBP 250+">GBP 250+</button>
+                  <button class="custom-select-option" type="button" role="option" data-value="Not sure yet">Not sure yet</button>
+                </div>
+              </div>
+            </div>
+
+            <label>
+              <span>Timeline</span>
+              <input name="timeline" type="text" placeholder="Example: 1 week, ASAP, flexible" />
+            </label>
+
+            <div class="field-control">
+              <span class="field-label">Best Contact</span>
+              <div class="custom-select" data-custom-select>
+                <input type="hidden" name="contactPreference" value="Email" />
+                <button
+                  class="custom-select-toggle"
+                  type="button"
+                  aria-expanded="false"
+                  aria-controls="contact-preference-options"
+                >
+                  <span data-select-label>Email</span>
+                </button>
+                <div class="custom-select-menu" id="contact-preference-options" role="listbox">
+                  <button class="custom-select-option is-selected" type="button" role="option" aria-selected="true" data-value="Email">Email</button>
+                  <button class="custom-select-option" type="button" role="option" data-value="Instagram">Instagram</button>
+                  <button class="custom-select-option" type="button" role="option" data-value="Phone">Phone</button>
+                  <button class="custom-select-option" type="button" role="option" data-value="Other">Other</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <label class="form-wide">
+            <span>Project Details</span>
+            <textarea
+              name="details"
+              rows="6"
+              placeholder="Tell me what you need, the style you want, image sizes/platforms, and anything important."
+              required
+            ></textarea>
+          </label>
+
+          <label class="form-wide">
+            <span>Links Or References</span>
+            <textarea
+              name="references"
+              rows="3"
+              placeholder="Paste any inspiration, social links, files, or examples."
+            ></textarea>
+          </label>
+
+          <div class="form-actions">
+            <button class="button primary" type="submit">Send Enquiry</button>
+            <a class="button ghost" href="mailto:hello@holostasis.co.uk">Email Directly</a>
+          </div>
+
+          <p class="form-status" data-form-status aria-live="polite"></p>
+        </form>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <span>Holostasis.co.uk</span>
+      <span>Project enquiries</span>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>
