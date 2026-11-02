@@ -1,11 +1,7 @@
-# Holostasis website update
+# Holostasis deployment
 
-This branch replaces the old static website files with the updated desktop website, including Auto Clean, the package finder, photography and remote editing enquiry forms, review UI and archived Fiverr links.
+The static pages run on Vercel. The server-only /api/reviews function is prepared to connect to the existing private reviews service using HOLOSTASIS_REVIEWS_TOKEN, once explicitly authorised and configured in the holostasis-kjng project. No secret is present in source or browser code.
 
-## Deployment blocker
+Owner moderation redirects to the private ChatGPT-authenticated preview dashboard. Review submissions await owner approval. Travel remains separately quoted. Enquiries open email drafts that customers must send.
 
-Do not promote this branch to production until review storage and owner authentication are configured on Vercel. The review UI calls `/api/reviews`; the existing working preview uses a Cloudflare D1-backed API and ChatGPT owner authentication. Those services are not included in this static desktop export and cannot be assumed to exist on Vercel.
-
-Vercel account access is still needed to inspect the existing project, provision or connect persistent review storage, implement compatible owner authentication, test the deployment and promote it.
-
-Enquiry buttons open an email draft; customers must press Send. Uber travel remains awaiting a separate quote.
+The holostasis-kjng project serves holostasis.co.uk and www.holostasis.co.uk. The separate holostasis project does not serve these domains. Do not promote until the review connection is configured and tested.
