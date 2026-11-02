@@ -9,8 +9,8 @@
     />
     <title>Visual Layouts | Holostasis</title>
     <link rel="preload" href="assets/bg-blurred.webp" as="image" />
-    <link rel="stylesheet" href="styles.css" />
-  </head>
+    <link rel="stylesheet" href="styles.css?v=20261102-r6" />
+  <link rel="stylesheet" href="automotive.css?v=20261102-r6"></head>
   <body>
     <div class="page-noise" aria-hidden="true"></div>
 
@@ -26,25 +26,22 @@
       </button>
 
       <nav class="site-nav" aria-label="Main navigation">
-        <a href="index.html#projects">Projects</a>
+        <a href="index.html#projects">Services</a>
         <a href="contact.html">Contact</a>
-        <a href="https://www.fiverr.com/holostasis?public_mode=true" target="_blank" rel="noopener">Fiverr</a>
+        
       </nav>
     </header>
 
-    <main class="project-main">
+    <main class="project-main automotive-page">
       <section class="project-detail-hero glass is-visible" data-reveal>
         <div class="project-detail-copy">
-          <a class="back-link" href="index.html#projects">Back to projects</a>
-          <p class="eyebrow">Social Edits</p>
+          <a class="back-link" href="index.html#projects">Back to services</a>
+          <p class="eyebrow">Photo / Video / Edits</p>
           <h1>Visual Layouts</h1>
           <p>
-            Stylised layouts, posters, thumbnails, and social-ready edits designed to turn strong
-            images into sharper campaign assets.
+            Already have photos or footage? Send me your existing content and I will edit it remotely into polished photographs, videos, reels, thumbnails or social layouts. No shoot or travel is needed.
           </p>
-          <div class="bio-actions">
-            <a class="button primary" href="https://www.fiverr.com/s/XLGg1BG" target="_blank" rel="noopener">Book Similar Work</a>
-          </div>
+          <div class="bio-actions"><a class="button primary" href="#editing-enquiry">Plan My Edit</a></div>
         </div>
         <div class="project-detail-media">
           <img src="assets/project-visual-layouts.webp" alt="Colourful helmet visual layout thumbnail" />
@@ -72,32 +69,16 @@
         </div>
       </section>
 
-      <section class="project-more glass" data-reveal>
-        <div class="section-heading">
-          <p class="eyebrow">More Projects</p>
-          <h2>Explore More Work</h2>
-        </div>
-
-        <div class="project-grid project-grid-two">
-          <a class="project-card" href="4-wheel-wonders.html" data-tilt>
-            <img src="assets/project-4-wheel-wonders.webp" alt="Close-up Lamborghini detail project" />
-            <span>Auto Photography</span>
-            <strong>4 Wheel Wonders</strong>
-          </a>
-          <a class="project-card" href="pocket-rockets.html" data-tilt>
-            <img src="assets/project-pocket-rockets.webp" alt="Motorbike photography detail project" />
-            <span>Bike Photography</span>
-            <strong>Pocket Rockets</strong>
-          </a>
-        </div>
-      </section>
-    </main>
+      <section id="editing-enquiry" class="auto-section is-visible"><p class="eyebrow">Remote Editing</p><h2>What would you like to create?</h2><p>You provide the photos or footage; I take care of the edit from home. Tell me about your files and the result you want.</p><div class="auto-grid"><form id="editing-form" class="contact-form auto-panel glass"><div class="form-grid"><label>Your name<input name="name" required maxlength="100" autocomplete="name"></label><label>Email<input name="email" type="email" required maxlength="200" autocomplete="email"></label><label>Editing service<select name="service" required><option value="">Choose a service</option><option>Photo editing / retouching</option><option>Video editing</option><option>Photo and video editing</option><option>Thumbnail / poster / social layout</option></select></label><label>Number of photos (if applicable)<input name="photos" type="number" min="0" max="10000" step="1"></label><label>Raw footage length (minutes)<input name="footage" type="number" min="0" max="10000" step="0.5"></label><label>Desired final video length<input name="finalLength" maxlength="80" placeholder="e.g. 30-second reel or 3-minute film"></label><label>Platform / format<input name="format" required maxlength="150" placeholder="e.g. Instagram Reel, 9:16, YouTube 16:9"></label><label>Preferred deadline<input name="deadline" type="date"></label><label>Budget (optional)<input name="budget" maxlength="80" placeholder="e.g. £50–£100 / please advise"></label><label>Source files link<input name="files" type="url" maxlength="1000" placeholder="https://drive.google.com/…"></label><label class="form-wide">What changes do you need?<textarea name="brief" rows="6" required minlength="10" maxlength="2500" placeholder="Colour grading, retouching, cuts, captions, audio, transitions, layouts and your preferred style"></textarea></label><label class="form-wide">References or inspiration<textarea name="references" rows="3" maxlength="1200" placeholder="Links to examples and any brand guidelines"></textarea></label></div><label class="auto-check"><input type="checkbox" name="rights" required>I own the content or have permission for it to be edited.</label><p class="small">Share a Drive, Dropbox or WeTransfer link. No files are uploaded through this form. Your enquiry opens in your email app; review it and press Send.</p><div class="form-actions"><button type="submit" class="button primary">Email Editing Enquiry</button><button type="button" id="editing-download" class="button ghost">Download Summary</button></div><p id="editing-status" class="form-status" role="status"></p></form><aside class="auto-panel auto-estimate glass"><p class="eyebrow">Your Editing Quote</p><h3>Made for your brief</h3><p>Editing is quoted after I review your source files, the work required and your deadline.</p><p class="notice">Remote service — no travel charge. Photography and filming packages do not apply to supplied-content editing.</p><p class="small">I will confirm the price, deliverables, revisions and turnaround before work begins. Submitting this form does not confirm a booking.</p></aside></div></section>    <section class="project-more glass service-shortcuts is-visible" aria-label="Other services"><div class="section-heading"><p class="eyebrow">More Services</p><h2>Explore More Services</h2></div><div class="project-grid"><a class="project-card" href="automotive.html" data-tilt><img src="assets/detailing-thumbnail.jpg" alt="Lamborghini badge on polished blue paintwork" loading="lazy"><span>Detailing</span><strong>Auto Clean</strong></a>
+<a class="project-card" href="4-wheel-wonders.html" data-tilt><img src="assets/project-4-wheel-wonders.webp" alt="Automotive photography by Holostasis" loading="lazy"><span>Auto Photography</span><strong>4 Wheel Wonders</strong></a>
+<a class="project-card" href="pocket-rockets.html" data-tilt><img src="assets/project-pocket-rockets.webp" alt="Motorbike photography by Holostasis" loading="lazy"><span>Bike Photography</span><strong>Pocket Rockets</strong></a></div></section>
+</main>
 
     <footer class="site-footer">
       <span>Holostasis.co.uk</span>
       <span>Visual Layouts</span>
     </footer>
 
-    <script src="script.js"></script>
-  </body>
+    <script src="script.js?v=20261102-r6"></script>
+  <script src="editing.js?v=20261102-r6"></script></body>
 </html>

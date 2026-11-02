@@ -9,7 +9,7 @@
     />
     <title>4 Wheel Wonders | Holostasis</title>
     <link rel="preload" href="assets/bg-blurred.webp" as="image" />
-    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="styles.css?v=20261102-r6" /><link rel="stylesheet" href="automotive.css?v=20261102-r6" />
   </head>
   <body>
     <div class="page-noise" aria-hidden="true"></div>
@@ -26,25 +26,23 @@
       </button>
 
       <nav class="site-nav" aria-label="Main navigation">
-        <a href="index.html#projects">Projects</a>
+        <a href="index.html#projects">Services</a>
         <a href="contact.html">Contact</a>
-        <a href="https://www.fiverr.com/holostasis?public_mode=true" target="_blank" rel="noopener">Fiverr</a>
+        
       </nav>
     </header>
 
-    <main class="project-main">
+    <main class="project-main automotive-page">
       <section class="project-detail-hero glass is-visible" data-reveal>
         <div class="project-detail-copy">
-          <a class="back-link" href="index.html#projects">Back to projects</a>
+          <a class="back-link" href="index.html#projects">Back to services</a>
           <p class="eyebrow">Auto Photography</p>
           <h1>4 Wheel Wonders</h1>
           <p>
             Automotive details, interiors, colour, and bodywork captured with a premium editorial feel
             for portfolio features, social posts, and brand-ready visuals.
           </p>
-          <div class="bio-actions">
-            <a class="button primary" href="https://www.fiverr.com/s/R7LoP3R" target="_blank" rel="noopener">Book Similar Work</a>
-          </div>
+          <div class="bio-actions"><a class="button primary" href="#finder">Plan My Shoot</a></div>
         </div>
         <div class="project-detail-media">
           <img src="assets/project-4-wheel-wonders.webp" alt="Lamborghini detail with wheel and interior styling" />
@@ -71,32 +69,42 @@
         </div>
       </section>
 
-      <section class="project-more glass" data-reveal>
-        <div class="section-heading">
-          <p class="eyebrow">More Projects</p>
-          <h2>Explore More Work</h2>
-        </div>
+      <section id="finder" class="auto-section is-visible"><p class="eyebrow">Photography &amp; Videography Enquiry</p><h2>Plan your photo / video shoot</h2><p>Choose your photographs and video, tell me where you would like to shoot, and get an indicative estimate.</p><div class="auto-grid"><form data-media-only="true" id="enquiry" class="contact-form auto-panel glass">
+<input type="hidden" name="clean" value="none"><input type="hidden" name="size" value="small"><input type="hidden" name="condition" value="normal"><div class="form-grid">
 
-        <div class="project-grid project-grid-two">
-          <a class="project-card" href="visual-layouts.html" data-tilt>
-            <img src="assets/project-visual-layouts.webp" alt="Colourful helmet visual layout project" />
-            <span>Social Edits</span>
-            <strong>Visual Layouts</strong>
-          </a>
-          <a class="project-card" href="pocket-rockets.html" data-tilt>
-            <img src="assets/project-pocket-rockets.webp" alt="Motorbike photography detail project" />
-            <span>Bike Photography</span>
-            <strong>Pocket Rockets</strong>
-          </a>
-        </div>
-      </section>
-    </main>
+
+
+<label>Edited photographs<select name="photos"><option value="0">No photography</option><option value="5" selected>At least 5 photos</option><option value="12">At least 12 photos</option><option value="20">At least 20 photos</option></select></label>
+<label>Edited video<select name="seconds"><option value="0">No video</option><option value="30">15–30-second reel</option><option value="60">45–60-second video</option><option value="90">60–90-second film</option></select></label>
+<label>Preferred date (optional)<input type="date" name="date"></label><label>Preferred start time (UK time)<input type="time" name="time"></label><label>Expected finish / return time (optional)<input type="time" name="returnTime"></label>
+</div>
+
+<label class="auto-check"><input name="custom" type="checkbox">I need something extra / a custom service</label>
+<div class="form-grid">
+<label>Your name<input name="name" autocomplete="name" required maxlength="100"></label>
+<label>Email<input name="email" type="email" autocomplete="email" required maxlength="200"></label>
+<label>Service postcode<input name="postcode" autocomplete="postal-code" required maxlength="12"></label>
+<label class="form-wide">Service location / full address<input name="location" autocomplete="street-address" required maxlength="250" placeholder="Address or agreed shoot location"></label>
+<label>Vehicle make & model<input name="vehicle" required maxlength="150" placeholder="e.g. Ford Fiesta ST"></label>
+
+<label>Main purpose<select name="purpose"><option>Personal / enthusiast</option><option>Preparing to sell</option><option>Social media content</option><option>Business / dealership</option></select></label>
+<label class="form-wide">Anything else we should know?<textarea name="notes" maxlength="2000" placeholder="Desired shots, style, social platforms or any special requests"></textarea></label>
+</div>
+<p class="small">Your details stay in this page until you choose to email or download them. Email opens a draft addressed to hello@holostasis.co.uk; review it and press Send in your email app. A booking is confirmed only after a reply.</p>
+<div class="form-actions"><button class="button primary" type="submit" id="email-enquiry">Email My Enquiry</button><button class="button ghost" type="button" id="download">Download Summary</button></div><p class="status small" id="status" role="status"></p>
+</form>
+<aside class="auto-panel auto-estimate glass"><span class="eyebrow">Your recommendation</span><div id="estimate" aria-live="polite" aria-atomic="true"></div><p class="notice">This is an estimate, not a confirmed booking. Outbound and return travel are awaiting a separate quote; they are not included in the displayed service subtotal. Custom work is additional. No payment is taken here.</p></aside>
+</div></section>
+<section class="auto-section auto-catalogue glass" data-reveal><p class="eyebrow">Photo &amp; Video</p><h2>Choose your content</h2><p>The same photography and videography packages as Auto Clean, without detailing.</p><div id="catalogue"></div></section>    <section class="project-more glass service-shortcuts is-visible" aria-label="Other services"><div class="section-heading"><p class="eyebrow">More Services</p><h2>Explore More Services</h2></div><div class="project-grid"><a class="project-card" href="automotive.html" data-tilt><img src="assets/detailing-thumbnail.jpg" alt="Lamborghini badge on polished blue paintwork" loading="lazy"><span>Detailing</span><strong>Auto Clean</strong></a>
+<a class="project-card" href="visual-layouts.html" data-tilt><img src="assets/project-visual-layouts.webp" alt="Creative photo and video editing by Holostasis" loading="lazy"><span>Photo / Video / Edits</span><strong>Visual Layouts</strong></a>
+<a class="project-card" href="pocket-rockets.html" data-tilt><img src="assets/project-pocket-rockets.webp" alt="Motorbike photography by Holostasis" loading="lazy"><span>Bike Photography</span><strong>Pocket Rockets</strong></a></div></section>
+</main>
 
     <footer class="site-footer">
       <span>Holostasis.co.uk</span>
       <span>4 Wheel Wonders</span>
     </footer>
 
-    <script src="script.js"></script>
+    <script src="script.js?v=20261102-r6"></script><script src="quote-model.js?v=20261102-r6"></script><script src="automotive.js?v=20261102-r6"></script>
   </body>
 </html>

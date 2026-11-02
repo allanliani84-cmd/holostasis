@@ -1953,3 +1953,47 @@ h3 {
     animation-duration: 0.01ms !important;
   }
 }
+
+/* Four featured services across on desktop; stack for smaller screens. */
+#projects .project-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+@media (max-width: 1000px) and (min-width: 621px) {
+  #projects .project-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 620px) {
+  #projects .project-grid { grid-template-columns: minmax(0, 1fr); }
+}
+
+/* Let featured services use the screen instead of the narrow intro column. */
+main#home { width: 100%; }
+#projects.featured { width: calc(100% - clamp(24px, 8vw, 160px)); max-width: 1600px; padding: clamp(18px, 1.6vw, 30px); }
+#projects .project-grid { gap: clamp(12px, 1.1vw, 22px); }
+#projects .project-card { aspect-ratio: 16 / 10; min-height: 160px; }
+#projects .project-card span { font-size: clamp(.75rem, .85vw, 1.15rem); padding-inline: clamp(14px, 1.1vw, 26px); line-height: 1.5; }
+#projects .project-card strong { font-size: clamp(1.15rem, 1.3vw, 1.8rem); padding: 0 clamp(14px, 1.1vw, 26px) clamp(18px, 1.4vw, 32px); line-height: 1.15; }
+#projects .section-heading h2 { font-size: clamp(1.8rem, 2.2vw, 3rem); }
+@media (max-width:620px) { #projects .project-card { aspect-ratio: 16 / 10; } }
+
+/* The detailing photo fills the card at its natural scale, including on hover. */
+#projects a[href="automotive.html"] img, #projects a[href="automotive.html"]:hover img { object-fit: cover; transform: none; }
+.client-showcase { display: block; width: min(1180px, calc(100% - 40px)); }
+.client-showcase .services-copy { position: static; max-width: 720px; margin-bottom: 24px; }
+.client-showcase .services-copy h2 { font-family: var(--display); font-size: clamp(1.8rem, 2.8vw, 3rem); font-weight: 400; line-height: 1.15; }
+.client-work-grid { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 16px; }
+.client-work-grid .project-card { aspect-ratio: 4 / 3; }
+.client-work-grid .project-card strong { font-size: clamp(1.1rem,1.4vw,1.6rem); line-height: 1.2; padding-bottom: 20px; }
+@media(max-width:620px) { .client-work-grid { grid-template-columns: 1fr; } .client-work-grid .project-card { aspect-ratio: 16 / 10; } }
+
+.reviews-section { width: min(1180px,calc(100% - 40px)); margin: 0 auto 80px; padding: clamp(20px,3vw,40px); }
+.review-layout { display:grid; grid-template-columns: 1fr 1fr; gap:40px; margin-top:28px; align-items:start; }
+.reviews-section h2,.reviews-section h3,.admin-reviews h1 { font-family:var(--display); font-weight:400; }
+.reviews-section h2 { font-size:clamp(2rem,3vw,3rem); } .reviews-section h3 { font-size:1.6rem; margin:0 0 20px; }
+.reviews-section p { color:var(--muted); line-height:1.65; }
+.review-card { border-bottom:1px solid var(--line); padding:20px 0; } .review-card h3 { font-family:var(--sans); font-size:1rem; margin:0 0 8px; } .review-card p { white-space:pre-wrap; overflow-wrap:anywhere; } .review-meta { font-family:var(--mono); font-size:.8rem; color:var(--steel); }
+.review-small { font-size:.8rem; } .contact-form .review-consent { display:flex; gap:10px; align-items:flex-start; text-transform:none; line-height:1.6; } .contact-form .review-consent input { width:18px; height:18px; flex:none; margin-top:3px; accent-color:var(--steel); } .review-honeypot { position:absolute!important; left:-10000px; width:1px; height:1px; overflow:hidden; }
+.admin-reviews { width:100%; margin-top:0; } .admin-reviews .button { margin:4px 8px 4px 0; } #review-list:empty { min-height:40px; } [hidden] { display:none!important; }
+@media(max-width:760px) { .review-layout { grid-template-columns:1fr; gap:28px; } }
+
+/* Matching links to the three other services, after each enquiry form. */
+.service-shortcuts .project-grid { grid-template-columns: repeat(3,minmax(0,1fr)); }
+.service-shortcuts .project-card strong { line-height: 1.2; }
+@media(max-width:760px) { .service-shortcuts .project-grid { grid-template-columns: minmax(0,1fr); } }
