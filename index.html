@@ -5,11 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
-      content="Holostasis is the portfolio of Allan Liani, a junior visual content creator focused on graphic design, photography, automotive visuals, and landscape work."
+      content="Holostasis by Allan Liani: vehicle detailing, automotive photography, videography and creative visual services."
     />
     <title>Holostasis | Allan Liani</title>
     <link rel="preload" href="assets/bg-blurred.webp" as="image" />
-    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="styles.css?v=20261102-r5" />
   </head>
   <body>
     <div class="page-noise" aria-hidden="true"></div>
@@ -26,9 +26,9 @@
       </button>
 
       <nav class="site-nav" aria-label="Main navigation">
-        <a href="#projects">Projects</a>
+        <a href="#projects">Services</a>
         <a href="contact.html">Contact</a>
-        <a href="https://www.fiverr.com/holostasis?public_mode=true" target="_blank" rel="noopener">Fiverr</a>
+        
       </nav>
     </header>
 
@@ -42,10 +42,7 @@
               <p class="eyebrow">Welcome</p>
               <h1>Holostasis</h1>
               <p>
-                This is a collection of the moments I've captured and the visuals I've created.
-                From photography and image editing to graphic design, every project is an
-                opportunity to experiment, refine, and create something worth looking at.
-                Take a look around, and thanks for being here.
+                Holostasis brings vehicle care and visual storytelling together. From a fresh detail to automotive photography, cinematic video and creative edits, I help your car, bike or brand look its best. Explore the services, find the right package and tell me what you have in mind.
               </p>
             </div>
 
@@ -53,12 +50,10 @@
               <div class="avatar">
                 <img src="assets/description-image.webp" alt="Portrait of Allan Liani" />
               </div>
-              <p class="eyebrow">Visual Content Creator</p>
+              <p class="eyebrow">Visual Content Creator - Detailer</p>
               <h2>Allan Liani</h2>
               <p>
-                I'm a junior visual content creator focused on graphic design and photography,
-                creating clean content for social media, digital platforms, and branding with a
-                special interest in automotive and landscape visuals.
+                I'm Allan, the creator and detailer behind Holostasis. I combine hands-on vehicle care with photography, videography and design, bringing the same attention to detail to your car's finish and the content we create around it.
               </p>
             </div>
           </div>
@@ -94,10 +89,10 @@
       <section class="featured glass" id="projects" data-reveal>
         <div class="section-heading">
           <p class="eyebrow">Portfolio</p>
-          <h2>Featured Projects</h2>
+          <h2>Featured Services</h2>
         </div>
 
-        <div class="project-grid">
+        <div class="project-grid"><a class="project-card" href="automotive.html" data-tilt><img src="assets/detailing-thumbnail.jpg" alt="Lamborghini badge on polished blue paintwork" /><span>Detailing</span><strong>Auto Clean</strong></a>
           <a class="project-card" href="4-wheel-wonders.html" data-tilt>
             <img src="assets/project-4-wheel-wonders.webp" alt="Close-up Lamborghini detail project" />
             <span>Auto Photography</span>
@@ -105,7 +100,7 @@
           </a>
           <a class="project-card" href="visual-layouts.html" data-tilt>
             <img src="assets/project-visual-layouts.webp" alt="Colourful helmet visual layout project" />
-            <span>Social Edits</span>
+            <span>Photo / Video / Edits</span>
             <strong>Visual Layouts</strong>
           </a>
           <a class="project-card" href="pocket-rockets.html" data-tilt>
@@ -116,43 +111,16 @@
         </div>
       </section>
 
-      <section class="services" id="services" data-reveal>
-        <div class="services-copy">
-          <p class="eyebrow">Client Work</p>
-          <h2>Portfolio, content creation, and digital visuals for online projects.</h2>
-          <div class="service-actions">
-            <a class="button primary" href="mailto:hello@holostasis.co.uk">Email Me</a>
-            <a class="button ghost" href="https://www.fiverr.com/holostasis?public_mode=true" target="_blank" rel="noopener">Fiverr Orders</a>
-          </div>
-        </div>
-
-        <div class="service-list">
-          <article>
-            <span>01</span>
-            <h3>Photography</h3>
-            <p>Automotive, product, lifestyle, and location-led shoots with a cinematic finish.</p>
-          </article>
-          <article>
-            <span>02</span>
-            <h3>Content Edits</h3>
-            <p>Short-form visuals, reels, social layouts, and high-contrast campaign assets.</p>
-          </article>
-          <article>
-            <span>03</span>
-            <h3>Brand Systems</h3>
-            <p>Clean digital identity, direction, and repeatable content styling for launch-ready pages.</p>
-          </article>
-        </div>
-      </section>
+      <section class="reviews-section glass" id="reviews"><div class="section-heading"><p class="eyebrow">Client Experiences</p><h2>Reviews</h2><p>Worked with Holostasis? Share your experience and read feedback from other clients.</p></div><div class="review-layout"><div><h3>What clients say</h3><div id="review-list" aria-live="polite"><p>Loading reviews…</p></div><a id="manage-reviews" class="back-link" href="reviews-admin.html" hidden>Manage Reviews</a></div><form id="review-form" class="contact-form"><h3>Leave a review</h3><label>Display name<input name="name" required minlength="2" maxlength="60" autocomplete="name" placeholder="First name or business name"></label><div class="form-grid"><label>Service<select name="service" required><option value="">Choose a service</option><option>Auto Clean</option><option>4 Wheel Wonders</option><option>Pocket Rockets</option><option>Visual Layouts</option><option>Other</option></select></label><label>Rating<select name="rating" required><option value="">Choose a rating</option><option value="5">5 — Excellent</option><option value="4">4 — Good</option><option value="3">3 — Okay</option><option value="2">2 — Poor</option><option value="1">1 — Very poor</option></select></label></div><label>Your review<textarea name="body" rows="5" required minlength="10" maxlength="1200" placeholder="Tell us about your experience"></textarea></label><label class="review-honeypot" aria-hidden="true">Website<input name="website" tabindex="-1" autocomplete="off"></label><label class="review-consent"><input type="checkbox" name="consent" required>I agree to my display name, rating and review being published on this website.</label><p class="review-small">Reviews are checked before publication. Your review is saved when you submit it. Please leave out private contact details.</p><button class="button primary" type="submit">Submit Review</button><p id="review-status" class="form-status" role="status"></p></form></div></section>
 
     </main>
 
     <footer class="site-footer">
       <span>Holostasis.co.uk</span>
-      <span>Visual content and digital direction</span>
+      <span>Vehicle care and visual storytelling</span>
     </footer>
 
-    <script src="script.js"></script>
-  </body>
+    <script src="script.js?v=20261102-r5"></script>
+  <script src="reviews.js?v=20261102-r5"></script></body>
 </html>
 
