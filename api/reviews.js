@@ -13,8 +13,8 @@ module.exports=async function handler(req,res){
   try{const d=typeof req.body==='string'?JSON.parse(req.body):req.body;if(!d||d.action)return fail(403,'Review management is available only in the private dashboard.');body=JSON.stringify({name:d.name,service:d.service,rating:d.rating,body:d.body,consent:d.consent,website:d.website});if(body.length>6000)return fail(413,'Your review is too long.');}catch{return fail(400,'Please check your review.');}
  }
  try{
-  const result=await fetch(backend+'/api/reviews',{method:req.method,headers:{'OAI-Sites-Authorization':'Bearer '+token,'Content-Type':'application/json',Origin:backend,'CF-Connecting-IP':req.headers['x-real-ip']||req.headers['x-forwarded-for']?.split(',')[0]||'unknown'},...(body?{body}:{}),signal:AbortSignal.timeout(15000),redirect:'error'});
-  if(!result.headers.get('content-type')?.includes('application/json'))return fail(502,'Reviews are temporarily unavailable.');
+  const result=await fetch(backend+'/api/reviews',{method:req.method,headers:{'OAI-Sites-Authorization':'Bearer '+token,'Content-Type':'application/json',...(req.method==='POST'?{Origin:backend}:{})},...(body?{body}:{}),signal:AbortSignal.timeout(15000),redirect:'error'});
+  if(!result.headers.get('content-type')?.includes('application/json')){console.warn('Review upstream',result.status,result.headers.get('content-type'),(await result.text()).slice(0,160));return fail(502,'Reviews are temporarily unavailable.');}
   res.status(result.status).json(await result.json());
  }catch{return fail(502,'Reviews are temporarily unavailable. Please try again.');}
 };
