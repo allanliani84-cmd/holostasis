@@ -1997,3 +1997,13 @@ main#home { width: 100%; }
 .service-shortcuts .project-grid { grid-template-columns: repeat(3,minmax(0,1fr)); }
 .service-shortcuts .project-card strong { line-height: 1.2; }
 @media(max-width:760px) { .service-shortcuts .project-grid { grid-template-columns: minmax(0,1fr); } }
+
+/* Native momentum scrolling; no per-touch JavaScript or animated image filters. */
+.carousel-viewport{touch-action:auto;-webkit-overflow-scrolling:touch;overflow-anchor:none;direction:ltr}.carousel-track{position:relative}.carousel-slide{contain:layout paint}
+@media(max-width:760px),(pointer:coarse){
+ body>header,body>main,body>footer{animation:mobilePageIn 260ms ease both}body.page-leaving>header,body.page-leaving>main,body.page-leaving>footer{animation:mobilePageOut 180ms ease both}
+ body::before{filter:none;transform:none;inset:0}.glass,.site-header .brand,.site-nav,.menu-toggle,.custom-select-menu,.service-list article{backdrop-filter:none;-webkit-backdrop-filter:none}
+ .glass{box-shadow:inset 0 1px 0 #ffffff18,0 12px 28px #00000033}.carousel-slide{box-shadow:none}.carousel-slide img{filter:none}.project-card img{will-change:auto}.project-card,.gallery-item img,.strip-card img{transform:none!important;transition:opacity 180ms ease,border-color 180ms ease}.project-card:hover img,.gallery-item:hover img{transform:none!important}
+ [data-reveal]{transition:opacity 260ms ease,transform 260ms ease}
+}@keyframes mobilePageIn{from{opacity:0}to{opacity:1}}@keyframes mobilePageOut{from{opacity:1}to{opacity:0}}
+

@@ -155,145 +155,32 @@ if (contactForm) {
   });
 }
 
-document.querySelectorAll("[data-carousel]").forEach((carousel) => {
-  const viewport = carousel.querySelector(".carousel-viewport");
-  const track = carousel.querySelector(".carousel-track");
-  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-  if (!viewport || !track) return;
-
-  const originalSlides = Array.from(track.children);
-  const beforeClones = originalSlides.map((slide) => {
-    const clone = slide.cloneNode(true);
-    clone.setAttribute("aria-hidden", "true");
-    return clone;
-  });
-  const afterClones = originalSlides.map((slide) => {
-    const clone = slide.cloneNode(true);
-    clone.setAttribute("aria-hidden", "true");
-    return clone;
-  });
-
-  track.prepend(...beforeClones);
-  track.append(...afterClones);
-
-  let isDragging = false;
-  let startX = 0;
-  let startScroll = 0;
-  let lastX = 0;
-  let lastTime = 0;
-  let lastScroll = 0;
-  let velocity = 0;
-  let momentumFrame;
-  let originalStart = 0;
-  let groupWidth = 0;
-  let isNormalizing = false;
-
-  const measureLoop = () => {
-    const firstOriginal = originalSlides[0];
-    const firstAfterClone = afterClones[0];
-
-    if (!firstOriginal || !firstAfterClone) return;
-
-    originalStart = firstOriginal.offsetLeft;
-    groupWidth = firstAfterClone.offsetLeft - firstOriginal.offsetLeft;
-
-    if (viewport.scrollLeft < originalStart || viewport.scrollLeft >= originalStart + groupWidth) {
-      viewport.scrollLeft = originalStart;
-    }
-  };
-
-  const normalizeScroll = () => {
-    if (!groupWidth || isNormalizing) return;
-
-    if (viewport.scrollLeft < originalStart) {
-      isNormalizing = true;
-      viewport.scrollLeft += groupWidth;
-      startScroll += groupWidth;
-      lastScroll += groupWidth;
-      requestAnimationFrame(() => {
-        isNormalizing = false;
-      });
-    } else if (viewport.scrollLeft >= originalStart + groupWidth) {
-      isNormalizing = true;
-      viewport.scrollLeft -= groupWidth;
-      startScroll -= groupWidth;
-      lastScroll -= groupWidth;
-      requestAnimationFrame(() => {
-        isNormalizing = false;
-      });
-    }
-  };
-
-  const stopMomentum = () => {
-    if (momentumFrame) window.cancelAnimationFrame(momentumFrame);
-  };
-
-  const glide = () => {
-    if (Math.abs(velocity) < 0.025 || reduceMotion) return;
-
-    viewport.scrollLeft += velocity * 18;
-    normalizeScroll();
-    velocity *= 0.945;
-    momentumFrame = window.requestAnimationFrame(glide);
-  };
-
-  viewport.addEventListener("pointerdown", (event) => {
-    if (event.button !== 0 && event.pointerType === "mouse") return;
-
-    isDragging = true;
-    carousel.classList.add("is-dragging");
-    viewport.setPointerCapture(event.pointerId);
-    stopMomentum();
-
-    startX = event.clientX;
-    startScroll = viewport.scrollLeft;
-    lastX = event.clientX;
-    lastScroll = viewport.scrollLeft;
-    lastTime = performance.now();
-    velocity = 0;
-  });
-
-  viewport.addEventListener("pointermove", (event) => {
-    if (!isDragging) return;
-
-    const now = performance.now();
-    const dx = event.clientX - startX;
-    const frameTime = Math.max(now - lastTime, 16);
-
-    viewport.scrollLeft = startScroll - dx;
-    normalizeScroll();
-    const scrollDelta = viewport.scrollLeft - lastScroll;
-    const nextVelocity = scrollDelta / frameTime;
-
-    velocity = (velocity * 0.58) + (nextVelocity * 0.42);
-    velocity = Math.max(-3.2, Math.min(3.2, velocity));
-    lastX = event.clientX;
-    lastScroll = viewport.scrollLeft;
-    lastTime = now;
-  });
-
-  const endDrag = (event) => {
-    if (!isDragging) return;
-
-    isDragging = false;
-    carousel.classList.remove("is-dragging");
-
-    if (viewport.hasPointerCapture(event.pointerId)) {
-      viewport.releasePointerCapture(event.pointerId);
-    }
-
-    glide();
-  };
-
-  viewport.addEventListener("pointerup", endDrag);
-  viewport.addEventListener("pointercancel", endDrag);
-  viewport.addEventListener("pointerleave", endDrag);
-  viewport.addEventListener("scroll", normalizeScroll, { passive: true });
-  window.addEventListener("resize", measureLoop);
-
-  requestAnimationFrame(measureLoop);
+document.querySelectorAll('[data-carousel]').forEach(carousel=>{
+ const viewport=carousel.querySelector('.carousel-viewport'),track=carousel.querySelector('.carousel-track');
+ if(!viewport||!track)return;
+ const originals=Array.from(track.children);if(originals.length<2)return;
+ const cloneGroup=()=>originals.map(slide=>{const c=slide.cloneNode(true);c.setAttribute('aria-hidden','true');c.inert=true;return c;});
+ // Two spare cycles on either side let native touch momentum finish before recentering.
+ track.prepend(...cloneGroup(),...cloneGroup());const after=cloneGroup();track.append(...after,...cloneGroup());
+ viewport.tabIndex=0;viewport.setAttribute('aria-label','Recent photos. Swipe or use the arrow keys to browse in either direction.');
+ let origin=0,cycle=0,touching=false,dragging=false,lastX=0,pending=0,frame=0,idle=0,ready=false;
+ const modulo=(n,m)=>((n%m)+m)%m;
+ const recenter=()=>{if(!ready||touching||dragging)return;const x=viewport.scrollLeft,next=origin+modulo(x-origin,cycle);if(Math.abs(next-x)>.5)viewport.scrollLeft=next;};
+ const measure=()=>{const oldCycle=cycle,offset=ready?modulo(viewport.scrollLeft-origin,cycle)/cycle:0;origin=originals[0].offsetLeft;cycle=after[0].offsetLeft-origin;if(cycle>0){viewport.scrollLeft=origin+(oldCycle?offset*cycle:0);ready=true;}};
+ const settle=()=>{clearTimeout(idle);idle=setTimeout(recenter,180);};
+ viewport.addEventListener('scroll',settle,{passive:true});viewport.addEventListener('scrollend',recenter,{passive:true});
+ viewport.addEventListener('touchstart',()=>{touching=true;clearTimeout(idle);},{passive:true});
+ for(const event of ['touchend','touchcancel'])viewport.addEventListener(event,()=>{touching=false;settle();},{passive:true});
+ // Mouse dragging only. Touch and trackpad scrolling stay entirely native.
+ viewport.addEventListener('pointerdown',e=>{if(e.pointerType!=='mouse'||e.button!==0)return;dragging=true;lastX=e.clientX;viewport.setPointerCapture(e.pointerId);carousel.classList.add('is-dragging');});
+ viewport.addEventListener('pointermove',e=>{if(!dragging)return;pending+=lastX-e.clientX;lastX=e.clientX;if(!frame)frame=requestAnimationFrame(()=>{viewport.scrollLeft+=pending;pending=0;frame=0;});});
+ const end=e=>{if(!dragging)return;dragging=false;if(viewport.hasPointerCapture(e.pointerId))viewport.releasePointerCapture(e.pointerId);carousel.classList.remove('is-dragging');settle();};
+ viewport.addEventListener('pointerup',end);viewport.addEventListener('pointercancel',end);
+ viewport.addEventListener('keydown',e=>{if(e.key==='ArrowLeft'||e.key==='ArrowRight'){e.preventDefault();viewport.scrollLeft+=(e.key==='ArrowRight'?1:-1)*Math.max(160,viewport.clientWidth*.65);settle();}});
+ const resize=new ResizeObserver(measure);resize.observe(viewport);requestAnimationFrame(measure);
+ carousel.dataset.loopReady='true';
 });
+
 
 const showRevealItem = (item) => item.classList.add("is-visible");
 
@@ -323,7 +210,7 @@ if ("IntersectionObserver" in window) {
 
 tiltItems.forEach((item) => {
   item.addEventListener("pointermove", (event) => {
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    if (event.pointerType !== "mouse" || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
     const rect = item.getBoundingClientRect();
     const x = (event.clientX - rect.left) / rect.width - 0.5;
@@ -337,8 +224,3 @@ tiltItems.forEach((item) => {
   });
 });
 
-window.addEventListener("scroll", () => {
-  const currentScroll = window.scrollY;
-
-  document.documentElement.style.setProperty("--scroll", `${currentScroll}px`);
-}, { passive: true });
