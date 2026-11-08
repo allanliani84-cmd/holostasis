@@ -5,9 +5,9 @@
     {id:'exterior',name:'Exterior Maintenance',price:30,clean:'exterior',depth:1,scope:'Pre-wash, hand wash, wheels, exterior glass, towel dry and tyre dressing.'},
     {id:'exterior-deep',name:'Enhanced Exterior',price:50,clean:'exterior',depth:2,scope:'Exterior Maintenance plus extra attention to wheels and trim, with spray protection.'},
     {id:'interior',name:'Interior Refresh',price:35,clean:'interior',depth:1,scope:'Vacuum, mats, dashboard and plastics wipe-down, and interior glass.'},
-    {id:'interior-deep',name:'Interior Detail',price:60,clean:'interior',depth:2,scope:'Interior Refresh plus more thorough vacuuming and cleaning around vents, seams and crevices. Extraction is separate.'},
+    {id:'interior-deep',name:'Interior Detail',price:60,clean:'interior',depth:2,includesPetHair:true,scope:'Interior Refresh plus more thorough vacuuming and cleaning around vents, seams and crevices. Pet hair removal is included. Extraction is separate.'},
     {id:'mini',name:'Mini Valet',price:45,clean:'both',depth:1,scope:'Exterior Maintenance plus Interior Refresh. Allow approximately 1.5–2 hours on site.'},
-    {id:'full',name:'Full Valet',price:80,clean:'both',depth:2,scope:'Enhanced Exterior plus Interior Detail. Extraction and decontamination are separate.'}
+    {id:'full',name:'Full Valet',price:80,clean:'both',depth:2,includesPetHair:true,scope:'Enhanced Exterior plus Interior Detail, including pet hair removal. Extraction and decontamination are separate.'}
   ];
   const photography = [
     {id:'snapshot',name:'Snapshot',price:40,photos:5,scope:'5 edited photos, up to 30 minutes, one location.'},
@@ -18,20 +18,33 @@
     {id:'filming-45',name:'Filming Session (up to 45 min)',price:40,minutes:45,scope:'One stationary vehicle. Add edited videos separately.'},
     {id:'filming-90',name:'Filming Session (up to 90 min)',price:60,minutes:90,scope:'One stationary vehicle. Add edited videos separately.'}
   ];
-  const shortEdit = {id:'reel',name:'Short Reel',price:20,perEdit:true,scope:'Vertical edit up to 30 seconds. One round of minor changes included.'};
-  const longEdit = {id:'long-video',name:'Longer Video',price:40,perEdit:true,scope:'31–60 seconds. One round of minor changes included.'};
+  const shortEdit = {id:'reel',name:'Short Reel',price:20,extraPrice:10,scope:'Vertical edit up to 30 seconds. One round of minor changes included.'};
+  const longEdit = {id:'long-video',name:'Longer Video',price:40,extraPrice:20,scope:'31–60 seconds. One round of minor changes included.'};
   const photoReel = {id:'photo-reel',name:'Photo + Reel',price:90,photos:5,scope:'5 edited photos and one short reel, with up to an hour on location. Extra edits can be added.'};
   const cleanCapture = {id:'clean-capture',name:'Clean Capture',price:80,clean:'both',depth:1,photos:5,scope:'Mini Valet and 5 edited photos.'};
-  const signature = {id:'signature',name:'Signature Showcase',price:195,clean:'both',depth:2,photos:10,scope:'Full Valet, 10 edited photos and one short reel. Extra edits can be added.'};
+  const signature = {id:'signature',name:'Signature Showcase',price:195,clean:'both',depth:2,includesPetHair:true,photos:10,scope:'Full Valet, 10 edited photos and one short reel. Extra edits can be added.'};
   const packages = [...cleaningPackages, ...photography, ...filmingSessions, shortEdit, longEdit, photoReel, cleanCapture, signature];
 
   const money = value => new Intl.NumberFormat('en-GB',{style:'currency',currency:'GBP',maximumFractionDigits:0}).format(value);
   const cost = items => items.reduce((total,item) => total + item.price, 0);
 
-  function videoEdits(shortReels, longVideos) {
-    return [[shortEdit, shortReels], [longEdit, longVideos]]
-      .filter(([, quantity]) => quantity > 0)
-      .map(([edit, quantity]) => ({...edit, name:edit.name+' × '+quantity, price:edit.price*quantity}));
+  function videoEdits(shortReels, longVideos, includesFirstEdit = false) {
+    const lines = [];
+    if (!includesFirstEdit && (shortReels || longVideos)) {
+      if (shortReels) {
+        lines.push(shortEdit);
+        shortReels--;
+      } else {
+        lines.push(longEdit);
+        longVideos--;
+      }
+    }
+    for (const [edit, quantity] of [[shortEdit, shortReels], [longEdit, longVideos]]) {
+      if (quantity) {
+        lines.push({...edit, name:'Additional '+edit.name.toLowerCase()+' × '+quantity, price:edit.extraPrice*quantity});
+      }
+    }
+    return lines;
   }
 
   function estimate(input) {
@@ -75,11 +88,11 @@
     }
     if (photos > 0 && photos <= photoReel.photos && shortReels > 0 && filming !== 90) {
       for (const cleaning of cleaningOptions) {
-        candidates.push([...cleaning, photoReel, ...videoEdits(shortReels-1,longVideos)]);
+        candidates.push([...cleaning, photoReel, ...videoEdits(shortReels-1,longVideos,true)]);
       }
     }
     if (fitsCleaning(signature) && photos > 0 && photos <= signature.photos && shortReels > 0 && filming !== 90) {
-      candidates.push([signature, ...videoEdits(shortReels-1,longVideos)]);
+      candidates.push([signature, ...videoEdits(shortReels-1,longVideos,true)]);
     }
 
     candidates.sort((a,b) => cost(a)-cost(b) || a.length-b.length);
@@ -87,7 +100,7 @@
     const lines = chosen.map(p => ({label:p.name,min:p.price,max:p.price,scope:p.scope}));
     if (clean !== 'none' && size === 'medium') lines.push({label:'Medium vehicle allowance',min:10,max:10});
     if (clean !== 'none' && size === 'large') lines.push({label:'Large vehicle allowance',min:10,max:25});
-    if ((clean === 'interior' || clean === 'both') && input.petHair) lines.push({label:'Pet hair removal',min:15,max:40});
+    if ((clean === 'interior' || clean === 'both') && input.petHair && !chosen.some(p => p.includesPetHair)) lines.push({label:'Pet hair removal',min:15,max:40});
 
     const notes = ['Indicative estimate. The final total, including return travel, is confirmed from your postcode and agreed before booking.'];
     if (clean !== 'none') notes.push('Cleaning is subject to suitable access, water and power, and an agreed wash-water arrangement.');

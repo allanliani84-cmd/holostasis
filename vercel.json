@@ -1,1 +1,24 @@
-{"redirects":[{"source":"/reviews-admin","destination":"https://holostasis-automotive-draft.a1n2rf.chatgpt.site/reviews-admin.html","permanent":false},{"source":"/reviews-admin.html","destination":"https://holostasis-automotive-draft.a1n2rf.chatgpt.site/reviews-admin.html","permanent":false}]}
+{
+  "redirects": [
+    {
+      "source": "/reviews-admin",
+      "destination": "https://holostasis-automotive-draft.a1n2rf.chatgpt.site/reviews-admin.html",
+      "permanent": false
+    },
+    {
+      "source": "/reviews-admin.html",
+      "destination": "https://holostasis-automotive-draft.a1n2rf.chatgpt.site/reviews-admin.html",
+      "permanent": false
+    },
+    {
+      "source": "/bookings-admin",
+      "destination": "https://holostasis-automotive-draft.a1n2rf.chatgpt.site/bookings-admin.html",
+      "permanent": false
+    },
+    {
+      "source": "/bookings-admin.html",
+      "destination": "https://holostasis-automotive-draft.a1n2rf.chatgpt.site/bookings-admin.html",
+      "permanent": false
+    }
+  ]
+}

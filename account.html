@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <meta name="referrer" content="no-referrer">
+  <title>My Bookings | Holostasis</title>
+  <link rel="icon" href="favicon.ico">
+  <link rel="stylesheet" href="styles.css?v=phone3">
+  <link rel="stylesheet" href="account.css?v=1">
+  <script src="account.js?v=1" defer></script>
+</head>
+<body>
+  <main class="account-shell">
+    <section class="glass">
+      <a href="index.html">Back to Holostasis</a>
+      <p class="eyebrow">Customer area</p>
+      <h1>My Bookings</h1>
+      <p id="account-status" role="status">Checking your account…</p>
+      <div id="account-sign-in" hidden>
+        <p>Use the sign-in link Holostasis sent when your booking was confirmed. If it has expired or you’re on a new device, <a href="contact.html">ask for a new link</a>.</p>
+        <button id="redeem-link" class="button primary" type="button" hidden>Use this sign-in link</button>
+      </div>
+      <div id="account-controls" class="account-actions" hidden>
+        <a class="button ghost" href="contact.html">Ask about a booking</a>
+        <button id="sign-out" class="button ghost" type="button">Sign out</button>
+      </div>
+    </section>
+    <div id="account-bookings" hidden>
+      <section class="glass">
+        <h2>Upcoming services</h2>
+        <p>All appointment times are shown in UK local time.</p>
+        <div class="account-list" id="upcoming-bookings"></div>
+      </section>
+      <section class="glass">
+        <h2>Booking history</h2>
+        <div class="account-list" id="past-bookings"></div>
+      </section>
+    </div>
+  </main>
+</body>
+</html>
