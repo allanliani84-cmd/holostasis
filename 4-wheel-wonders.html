@@ -75,7 +75,10 @@
 
 
 <label>Edited photographs<select name="photos"><option value="0">No photography</option><option value="5" selected>At least 5 photos</option><option value="12">At least 12 photos</option><option value="20">At least 20 photos</option></select></label>
-<label>Edited video<select name="seconds"><option value="0">No video</option><option value="30">15–30-second reel</option><option value="60">45–60-second video</option><option value="90">60–90-second film</option></select></label>
+<label>Filming time<select name="filming"><option value="0">No filming selected</option><option value="45">Up to 45 minutes</option><option value="90">Up to 90 minutes</option></select></label>
+<label>Short reels (up to 30 seconds each)<input type="number" name="shortReels" min="0" step="1" value="0" inputmode="numeric" aria-describedby="video-quote-help"></label>
+<label>Longer videos (31–60 seconds each)<input type="number" name="longVideos" min="0" step="1" value="0" inputmode="numeric" aria-describedby="video-quote-help"></label>
+<p class="small form-wide" id="video-quote-help">Filming is priced by session. Choose how many edits you want from the shoot. If you select edits without a filming time, the estimate uses the 45-minute session.</p>
 <label>Preferred date (optional)<input type="date" name="date"></label><label>Preferred start time (UK time)<input type="time" name="time"></label><label>Expected finish / return time (optional)<input type="time" name="returnTime"></label>
 </div>
 
@@ -95,7 +98,7 @@
 </form>
 <aside class="auto-panel auto-estimate glass"><span class="eyebrow">Your recommendation</span><div id="estimate" aria-live="polite" aria-atomic="true"></div><p class="notice">This is an estimate, not a confirmed booking. Outbound and return travel are awaiting a separate quote; they are not included in the displayed service subtotal. Custom work is additional. No payment is taken here.</p></aside>
 </div></section>
-<section class="auto-section auto-catalogue glass" data-reveal><p class="eyebrow">Photo &amp; Video</p><h2>Choose your content</h2><p>The same photography and videography packages as Auto Clean, without detailing.</p><div id="catalogue"></div></section>    <section class="project-more glass service-shortcuts is-visible" aria-label="Other services"><div class="section-heading"><p class="eyebrow">More Services</p><h2>Explore More Services</h2></div><div class="project-grid"><a class="project-card" href="automotive.html" data-tilt><img src="assets/detailing-thumbnail.jpg" alt="Lamborghini badge on polished blue paintwork" loading="lazy"><span>Detailing</span><strong>Auto Clean</strong></a>
+<section class="auto-section auto-catalogue glass" data-reveal><p class="eyebrow">Photo &amp; Video</p><h2>Choose your content</h2><p>Launch prices for one stationary vehicle. Choose photos, a filming session with the edits you want, or a Photo + Reel bundle. Travel is quoted separately.</p><div id="catalogue"></div></section>    <section class="project-more glass service-shortcuts is-visible" aria-label="Other services"><div class="section-heading"><p class="eyebrow">More Services</p><h2>Explore More Services</h2></div><div class="project-grid"><a class="project-card" href="automotive.html" data-tilt><img src="assets/detailing-thumbnail.jpg" alt="Lamborghini badge on polished blue paintwork" loading="lazy"><span>Detailing</span><strong>Auto Clean</strong></a>
 <a class="project-card" href="visual-layouts.html" data-tilt><img src="assets/project-visual-layouts.webp" alt="Creative photo and video editing by Holostasis" loading="lazy"><span>Photo / Video / Edits</span><strong>Visual Layouts</strong></a>
 <a class="project-card" href="pocket-rockets.html" data-tilt><img src="assets/project-pocket-rockets.webp" alt="Motorbike photography by Holostasis" loading="lazy"><span>Bike Photography</span><strong>Pocket Rockets</strong></a></div></section>
 </main>
@@ -105,6 +108,6 @@
       <span>4 Wheel Wonders</span>
     </footer>
 
-    <script src="script.js?v=phone3"></script><script src="quote-model.js?v=phone3"></script><script src="automotive.js?v=phone3"></script>
+    <script src="script.js?v=phone3"></script><script src="quote-model.js?v=launch-prices1"></script><script src="automotive.js?v=launch-prices1"></script>
   </body>
 </html>
