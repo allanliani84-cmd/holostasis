@@ -33,7 +33,7 @@
       card.append(
         node('p', booking.status, 'appointment-status'),
         node('h3', booking.service),
-        node('p', formatDay.format(new Date(booking.day + 'T12:00:00Z')) + ' · ' + booking.time),
+        node('p', formatDay.format(new Date(booking.day + 'T12:00:00Z')) + ' · ' + booking.time + (booking.end_time ? '–' + booking.end_time : '')),
       );
       if (booking.location) card.append(node('p', 'Location · ' + booking.location));
       if (booking.notes) card.append(node('p', booking.notes));

@@ -19,6 +19,16 @@
       "source": "/bookings-admin.html",
       "destination": "https://holostasis-automotive-draft.a1n2rf.chatgpt.site/bookings-admin.html",
       "permanent": false
+    },
+    {
+      "source": "/booking-calendar-admin",
+      "destination": "https://holostasis-automotive-draft.a1n2rf.chatgpt.site/booking-calendar-admin.html",
+      "permanent": false
+    },
+    {
+      "source": "/booking-calendar-admin.html",
+      "destination": "https://holostasis-automotive-draft.a1n2rf.chatgpt.site/booking-calendar-admin.html",
+      "permanent": false
     }
   ]
 }

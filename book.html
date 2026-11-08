@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="no-referrer">
+  <title>Book a Service | Holostasis</title>
+  <link rel="icon" href="favicon.ico">
+  <link rel="stylesheet" href="styles.css?v=phone3">
+  <link rel="stylesheet" href="account.css?v=1">
+  <script src="book.js?v=2" defer></script>
+</head>
+<body>
+  <main class="account-shell">
+    <section class="glass">
+      <div class="account-actions"><a href="index.html">Back to Holostasis</a><a href="account.html">My Bookings</a></div>
+      <p class="eyebrow">Holostasis Automotive</p>
+      <h1>Book a service</h1>
+      <p>Choose an available appointment to hold it for 10 minutes while you finish booking. Times are shown in UK local time.</p>
+      <p id="booking-status" role="status">Checking availability…</p>
+    </section>
+    <section class="glass">
+      <h2>Available appointments</h2>
+      <div class="account-actions"><button id="refresh-times" class="button ghost" type="button">Refresh times</button></div>
+      <div id="available-times" class="account-list"></div>
+    </section>
+    <section id="booking-details" class="glass" hidden>
+      <h2>Finish booking</h2>
+      <p id="chosen-time"></p>
+      <p id="hold-expiry"></p>
+      <p id="booking-identity"></p>
+      <form id="reserve-form" class="contact-form">
+        <div id="guest-details" class="form-grid">
+          <label>Your name <input name="name" autocomplete="name" maxlength="100" required></label>
+          <label>Your email <input name="email" type="email" autocomplete="email" maxlength="254" required></label>
+        </div>
+        <label>Service address or meeting point <input name="location" autocomplete="street-address" maxlength="200" required></label>
+        <label>Anything Holostasis should know? <textarea name="notes" maxlength="1000" rows="3"></textarea></label>
+        <label hidden aria-hidden="true">Website <input name="website" tabindex="-1" autocomplete="off"></label>
+        <p>This reserves your time without payment. Holostasis will agree the service and total price with you separately.</p>
+        <label class="review-consent"><input type="checkbox" name="termsVersion" value="booking-2026-11-08" required> <span>I agree to the <a href="terms.html" target="_blank" rel="noopener">Booking and Account Terms</a>.</span></label>
+        <p>See how we use your details in our <a href="privacy.html" target="_blank" rel="noopener">Privacy Notice</a>.</p>
+        <div class="account-actions">
+          <button class="button primary" type="submit">Reserve appointment</button>
+          <button id="release-time" class="button ghost" type="button">Release this time</button>
+        </div>
+        <p id="booking-form-status" role="status"></p>
+      </form>
+    </section>
+    <section id="booking-done" class="glass" hidden>
+      <h2>Appointment booked</h2>
+      <p id="booking-confirmation"></p>
+      <p id="booking-account-link" hidden>View this appointment in <a href="account.html">My Bookings</a>.</p>
+    </section>
+  </main>
+</body>
+</html>
