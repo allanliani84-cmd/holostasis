@@ -1,0 +1,10 @@
+#review-photo-help { margin: -.4rem 0 0; }
+.review-photo-input input { padding: .6rem; }
+.review-photos {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: .5rem;
+  margin-top: .75rem;
+}
+.review-photos a { display: block; border-radius: .5rem; overflow: hidden; }
+.review-photos img { display: block; width: 100%; aspect-ratio: 1; object-fit: cover; }
