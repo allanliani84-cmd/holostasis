@@ -9,20 +9,30 @@
   <link rel="icon" href="favicon.ico">
   <link rel="stylesheet" href="styles.css?v=phone3">
   <link rel="stylesheet" href="account.css?v=1">
-  <script src="account.js?v=calendar1" defer></script>
+  <script src="account.js?v=password1" defer></script>
 </head>
 <body>
   <main class="account-shell">
     <section class="glass">
       <a href="index.html">Back to Holostasis</a>
       <p class="eyebrow">Customer area</p>
-      <h1>My Bookings</h1>
+      <h1 id="account-heading">Log in</h1>
       <div class="account-actions"><a href="privacy.html">Privacy Notice</a><a href="terms.html">Account Terms</a></div>
       <p id="account-status" role="status">Checking your account…</p>
-      <div id="account-sign-in" hidden>
-        <p>Use the sign-in link Holostasis sent when your booking was confirmed. If it has expired or you’re on a new device, <a href="contact.html">ask for a new link</a>.</p>
-        <button id="redeem-link" class="button primary" type="button" hidden>Use this sign-in link</button>
-      </div>
+      <form id="login-form" class="contact-form" hidden>
+        <label>Email <input name="email" type="email" autocomplete="username" maxlength="254" required></label>
+        <label>Password <input name="password" type="password" autocomplete="current-password" maxlength="72" required></label>
+        <button class="button primary" type="submit">Log in</button>
+        <p>Need an account or forgot your password? <a href="contact.html">Ask Holostasis for a setup link</a>.</p>
+        <p>Booking as a guest? <a href="book.html">Browse available appointments</a>.</p>
+      </form>
+      <form id="setup-form" class="contact-form" hidden>
+        <p>Choose a password to finish setting up or resetting your Holostasis account.</p>
+        <label>New password <input name="password" type="password" autocomplete="new-password" minlength="12" maxlength="72" required></label>
+        <label>Repeat password <input name="confirmPassword" type="password" autocomplete="new-password" minlength="12" maxlength="72" required></label>
+        <button class="button primary" type="submit">Save password</button>
+        <p><a href="account.html">Back to log in</a></p>
+      </form>
       <div id="account-controls" class="account-actions" hidden>
         <a class="button ghost" href="book.html">Book a service</a>
         <a class="button ghost" href="contact.html">Ask about a booking</a>
