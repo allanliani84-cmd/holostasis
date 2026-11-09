@@ -1,3 +1,5 @@
+/* Keep the shared header in the login page's layout so the card starts below it. */
+.account-page > .site-header { position: relative; }
 .account-shell { width: min(100% - 2rem, 960px); margin: 2rem auto 4rem; }
 .account-shell section { padding: clamp(1.25rem, 4vw, 2rem); margin: 1rem 0; }
 .account-shell h1 { margin: .25rem 0 1rem; }
@@ -23,4 +25,22 @@
 @media (max-width: 560px) {
   .account-shell { margin-top: 1.25rem; }
   .account-auth .account-actions .button { width: 100%; justify-content: center; min-height: 44px; }
+}
+
+@media (max-width: 620px) {
+  .account-page > .site-header:has(.site-nav.is-open) {
+    display: grid;
+    grid-template-columns: minmax(0,1fr) auto;
+    gap: 8px;
+    height: auto;
+    min-height: 44px;
+  }
+  .account-page .site-header .brand { justify-self: start; }
+  .account-page .site-header .header-actions { grid-column: 2; grid-row: 1; }
+  .account-page .site-header .site-nav.is-open {
+    position: static;
+    grid-column: 1 / -1;
+    grid-row: 2;
+    width: 100%;
+  }
 }
