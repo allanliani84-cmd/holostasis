@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <meta name="referrer" content="no-referrer">
+  <title>Manage Bookings | Holostasis</title>
+  <link rel="icon" href="favicon.ico?v=phone3" sizes="32x32"><link rel="icon" type="image/svg+xml" href="favicon.svg?v=phone3"><link rel="apple-touch-icon" sizes="180x180" href="assets/logo-icon-180.png"><link rel="stylesheet" href="brand-intro.css?v=phone3"><script src="brand-intro.js?v=phone3"></script><link rel="preload" as="image" href="assets/brand-opening-mobile.webp?v=phone3" media="(max-width: 760px), (pointer: coarse)">
+  <link rel="stylesheet" href="styles.css?v=phone3">
+  <link rel="stylesheet" href="account.css?v=signup1">
+  <script src="owner-bookings.js?v=1" defer></script>
+</head>
+<body><div class="brand-intro" aria-hidden="true"><div class="brand-intro-scene"><picture class="brand-phone-playback"><source media="(max-width: 760px), (pointer: coarse)" srcset="assets/brand-opening-mobile.webp?v=phone3"><img src="assets/finished-logo.webp" alt="" width="480" height="430" fetchpriority="high" decoding="async"></picture><svg class="brand-flower" viewBox="0 0 448 693" aria-hidden="true"><defs><linearGradient id="morph-water" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#d4ecff"/><stop offset=".45" stop-color="#8daac9"/><stop offset="1" stop-color="#c56c82"/></linearGradient><filter id="logo-morph" x="-60%" y="-40%" width="220%" height="180%"><feTurbulence type="fractalNoise" baseFrequency=".012 .022" numOctaves="2" seed="5" result="flow"><animate attributeName="baseFrequency" values=".025 .016;.012 .025;.008 .012" dur="1.65s" fill="freeze"/></feTurbulence><feDisplacementMap in="SourceGraphic" in2="flow" scale="170" result="warped"><animate attributeName="scale" values="170;130;65;15;0" keyTimes="0;.28;.58;.85;1" dur="1.65s" fill="freeze"/></feDisplacementMap><feGaussianBlur in="warped" stdDeviation="15"><animate attributeName="stdDeviation" values="15;12;5;0" keyTimes="0;.3;.65;1" dur="1.65s" fill="freeze"/></feGaussianBlur></filter></defs><g class="brand-morph-mark" filter="url(#logo-morph)"><image href="assets/finished-logo.webp" width="448" height="693"/></g></svg><svg class="brand-current" viewBox="0 0 480 320"><path d="M30 235C90 305 190 260 205 180S270 50 300 95 250 220 350 230 465 180 450 130"/></svg></div></div>
+    <div class="page-noise" aria-hidden="true"></div>
+
+    <header class="site-header">
+      <a class="brand home-brand" href="index.html" aria-label="Home">
+        <span class="brand-mark"><img src="assets/finished-logo.webp" alt="" /></span>
+        <span>Home</span>
+      </a>
+
+      <button class="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false">
+        <span></span>
+        <span></span>
+      </button>
+
+      <nav class="site-nav" aria-label="Main navigation">
+        <a href="index.html#projects">Services</a>
+        <a href="contact.html">Contact</a>
+        <a href="account.html" data-account-nav>My Bookings</a>
+
+      </nav>
+    </header>
+  <main class="account-shell">
+    <section class="glass">
+      <div class="account-actions"><a href="https://holostasis-automotive-draft.a1n2rf.chatgpt.site/reviews-admin.html">Manage Reviews</a><a href="owner-calendar.html">Manage Calendar</a></div>
+      <p class="eyebrow">Owner area</p>
+      <h1>Manage Bookings</h1>
+      <p id="owner-status" role="status">Checking owner access…</p>
+      <a id="owner-sign-in" class="button ghost" href="account.html" hidden>Sign in as owner</a>
+    </section>
+    <div id="owner-workspace" hidden>
+      <section class="glass">
+        <h2>Customers</h2>
+        <form id="customer-form" class="contact-form">
+          <div class="form-grid">
+            <label>Customer name <input name="name" maxlength="100" required></label>
+            <label>Customer email <input name="email" type="email" maxlength="254" required></label>
+          </div>
+          <button class="button primary" type="submit">Add customer</button>
+        </form>
+        <label for="customer-select">Choose a customer</label>
+        <select id="customer-select"></select>
+        <div id="customer-actions" hidden>
+          <div class="account-actions">
+            <button id="new-link" class="button ghost" type="button">Create password setup link</button>
+            <button id="revoke-links" class="button ghost" type="button">Revoke access</button>
+          </div>
+          <div id="invite-panel" class="contact-form" hidden>
+            <p>Send this link privately to the customer at their verified email address. It works once, expires after seven days and lets them set or reset their password.</p>
+            <label>Customer password setup link <input id="invite-url" readonly></label>
+            <button id="copy-link" class="button ghost" type="button">Copy link</button>
+          </div>
+        </div>
+      </section>
+      <section id="booking-panel" class="glass" hidden>
+        <h2 id="booking-title">Add a booking</h2>
+        <form id="booking-form" class="contact-form">
+          <input name="id" type="hidden">
+          <label>Service <input name="service" maxlength="120" placeholder="e.g. Mini Valet" required></label>
+          <div class="form-grid">
+            <label>Date <input name="day" type="date" required></label>
+            <label>Start (UK local time) <input name="time" type="time" required></label>
+            <label>Finish (UK local time) <input name="end_time" type="time" required></label>
+            <label>Status <select name="status"><option value="confirmed">Confirmed</option><option value="completed">Completed</option><option value="cancelled">Cancelled</option></select></label>
+            <label>Location (optional) <input name="location" maxlength="200"></label>
+          </div>
+          <label>Preparation or appointment notes (visible to the customer) <textarea name="notes" maxlength="1000" rows="3"></textarea></label>
+          <div class="account-actions">
+            <button class="button primary" type="submit">Save booking</button>
+            <button id="new-booking" class="button ghost" type="button" hidden>Start a new booking</button>
+          </div>
+        </form>
+        <div id="owner-bookings" class="account-list"></div>
+      </section>
+    </div>
+  </main>
+  <script src="script.js?v=phone3"></script>
+</body>
+</html>

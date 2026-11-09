@@ -43,7 +43,8 @@
     }
   }
 
-  function show(mode) {
+  function show(mode, isAdmin = false) {
+    document.querySelector('#owner-controls').hidden = !isAdmin;
     login.hidden = mode !== 'login';
     signup.hidden = mode !== 'signup';
     setup.hidden = mode !== 'setup';
@@ -75,7 +76,7 @@
       renderList('#upcoming-bookings', upcoming, 'You have no upcoming bookings.');
       renderList('#past-bookings', past, 'You have no past bookings.');
       status.textContent = 'Welcome, ' + data.customer.name + '.';
-      show('bookings');
+      show('bookings', data.customer.isAdmin === true);
     } catch {
       show('login');
       status.textContent = 'My Bookings is temporarily unavailable. Please try again.';
