@@ -23,7 +23,7 @@ module.exports = async function handler(req, res) {
       const data = typeof req.body === 'string' ? JSON.parse(req.body) : req.body;
       if (!['availability','hold','release','book'].includes(data?.action)) return fail(400, 'Invalid booking action.');
       body = JSON.stringify({
-        action:data.action,id:data.id,key:data.key,name:data.name,email:data.email,
+        action:data.action,id:data.id,key:data.key,name:data.name,email:data.email,phone:data.phone,
         location:data.location,notes:data.notes,website:data.website,asGuest:data.asGuest,termsVersion:data.termsVersion,
         package:data.package,day:data.day,time:data.time,postcode:data.postcode,size:data.size,petHair:data.petHair,
         photos:data.photos,filming:data.filming,shortReels:data.shortReels,longVideos:data.longVideos,

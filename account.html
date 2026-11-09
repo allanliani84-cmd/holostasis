@@ -9,8 +9,8 @@
   <link rel="icon" href="favicon.ico?v=phone3" sizes="32x32"><link rel="icon" type="image/svg+xml" href="favicon.svg?v=phone3"><link rel="apple-touch-icon" sizes="180x180" href="assets/logo-icon-180.png"><link rel="stylesheet" href="brand-intro.css?v=phone3"><script src="brand-intro.js?v=phone3"></script><link rel="preload" as="image" href="assets/brand-opening-mobile.webp?v=phone3" media="(max-width: 760px), (pointer: coarse)">
   <link rel="stylesheet" href="styles.css?v=phone3">
   <link rel="stylesheet" href="account.css?v=signup1">
-  <script src="account.js?v=owner-dashboard-profile1" defer></script>
-</head>
+  <script src="account.js?v=booking-return1" defer></script>
+<link rel="stylesheet" href="theme.css?v=1"><script src="theme.js?v=1"></script></head>
 <body><div class="brand-intro" aria-hidden="true"><div class="brand-intro-scene"><picture class="brand-phone-playback"><source media="(max-width: 760px), (pointer: coarse)" srcset="assets/brand-opening-mobile.webp?v=phone3"><img src="assets/finished-logo.webp" alt="" width="480" height="430" fetchpriority="high" decoding="async"></picture><svg class="brand-flower" viewBox="0 0 448 693" aria-hidden="true"><defs><linearGradient id="morph-water" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#d4ecff"/><stop offset=".45" stop-color="#8daac9"/><stop offset="1" stop-color="#c56c82"/></linearGradient><filter id="logo-morph" x="-60%" y="-40%" width="220%" height="180%"><feTurbulence type="fractalNoise" baseFrequency=".012 .022" numOctaves="2" seed="5" result="flow"><animate attributeName="baseFrequency" values=".025 .016;.012 .025;.008 .012" dur="1.65s" fill="freeze"/></feTurbulence><feDisplacementMap in="SourceGraphic" in2="flow" scale="170" result="warped"><animate attributeName="scale" values="170;130;65;15;0" keyTimes="0;.28;.58;.85;1" dur="1.65s" fill="freeze"/></feDisplacementMap><feGaussianBlur in="warped" stdDeviation="15"><animate attributeName="stdDeviation" values="15;12;5;0" keyTimes="0;.3;.65;1" dur="1.65s" fill="freeze"/></feGaussianBlur></filter></defs><g class="brand-morph-mark" filter="url(#logo-morph)"><image href="assets/finished-logo.webp" width="448" height="693"/></g></svg><svg class="brand-current" viewBox="0 0 480 320"><path d="M30 235C90 305 190 260 205 180S270 50 300 95 250 220 350 230 465 180 450 130"/></svg></div></div>
     <div class="page-noise" aria-hidden="true"></div>
 
@@ -20,16 +20,18 @@
         <span>Home</span>
       </a>
 
-      <button class="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false">
-        <span></span>
-        <span></span>
-      </button>
+      <div class="header-actions">
+        <a href="account.html" class="account-link" data-account-nav aria-current="page">Log in</a>
+        <button class="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="site-navigation">
+          <span></span>
+          <span></span>
+        </button>
+      </div>
 
-      <nav class="site-nav" aria-label="Main navigation">
+      <nav class="site-nav" id="site-navigation" aria-label="Main navigation">
         <a href="index.html#projects">Services</a>
         <a href="contact.html">Contact</a>
-        <a href="account.html" data-account-nav aria-current="page">Log in</a>
-
+        <button class="theme-toggle" type="button" data-theme-toggle>Light mode</button>
       </nav>
     </header>
   <main class="account-shell">
@@ -83,6 +85,6 @@
       </section>
     </div>
   </main>
-  <script src="script.js?v=phone3"></script>
+  <script src="script.js?v=menu4"></script>
 </body>
 </html>

@@ -25,9 +25,10 @@
   const total = quote && (window.HolostasisQuote.money(quote.min) +
     (quote.max===quote.min ? '' : '–'+window.HolostasisQuote.money(quote.max)));
   const vehicle = parameters.get('vehicle');
+  const isBikeClean = quote?.pack.clean === 'bike';
   const bookingNotes = quote && [
-    ...(['car','motorbike'].includes(vehicle) ? ['Vehicle: '+vehicle] : []),
-    ...(quote.pack.clean ? ['Vehicle: '+(['small','medium','large'].includes(options.size) ? options.size : 'small')] : []),
+    ...(isBikeClean || ['car','motorbike'].includes(vehicle) ? ['Vehicle: '+(isBikeClean ? 'motorbike' : vehicle)] : []),
+    ...(quote.pack.clean && !isBikeClean ? ['Vehicle: '+(['small','medium','large'].includes(options.size) ? options.size : 'small')] : []),
     ...quote.lines.slice(1).map(line => line.label),
   ];
   if (quote) {
@@ -58,6 +59,18 @@
   let busy = false;
   const storageKey = 'holostasis-booking-hold';
   const formStatus = document.querySelector('#booking-form-status');
+  const guestPrompts = document.querySelectorAll('[data-guest-prompt]');
+  const loginUrl = 'account.html?' + new URLSearchParams({ returnTo:'/book.html' + location.search });
+  for (const link of document.querySelectorAll('[data-booking-login]')) link.href = loginUrl;
+
+  function showIdentity(identity) {
+    customer = identity || null;
+    document.querySelector('[data-account-nav]').href = customer ? 'account.html' : loginUrl;
+    for (const prompt of guestPrompts) prompt.hidden = Boolean(customer);
+    document.querySelector('#guest-details').hidden = Boolean(customer);
+    for (const name of ['name','email']) form.elements[name].disabled = Boolean(customer);
+    document.querySelector('#booking-identity').textContent = customer ? 'Booking as '+customer.name+'.' : 'Booking as a guest.';
+  }
 
   function savedHold() {
     try {
@@ -190,13 +203,16 @@
   next.addEventListener('click',() => { month = shiftMonth(month,1); day = null; renderCalendar(); });
 
   async function load() {
-    if (quote && !postcode) return;
+    if (quote && !postcode) {
+      try {
+        const response = await fetch('/api/customer-account?session=1', { cache:'no-store' });
+        showIdentity(response.ok ? (await response.json()).customer : null);
+      } catch { showIdentity(null); }
+      return;
+    }
     const data = await request(quote ? { action:'availability', ...packageRequest, postcode } : undefined);
     refresh.hidden = false;
-    customer = data.customer;
-    document.querySelector('#guest-details').hidden = Boolean(customer);
-    for (const name of ['name','email']) form.elements[name].disabled = Boolean(customer);
-    document.querySelector('#booking-identity').textContent = customer ? 'Booking as '+customer.name+'.' : 'Booking as a guest.';
+    showIdentity(data.customer);
     slots = data.slots.filter(matches).sort((left,right) => (left.day+left.time).localeCompare(right.day+right.time));
     renderCalendar();
   }

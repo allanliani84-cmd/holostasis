@@ -21,7 +21,7 @@
   function selections() {
     const fields = form.elements;
     return {
-      size: fields.size?.value,
+      size: fields.size?.disabled ? undefined : fields.size?.value,
       petHair: Boolean(fields.petHair?.checked && !fields.petHair.disabled),
       photos: Number(fields.photos?.value || 0),
       filming: Number(fields.filming?.value || 0),
@@ -32,7 +32,8 @@
 
   function url(pack, options = {}) {
     const query = new URLSearchParams({ package:pack.id });
-    if (section.dataset.vehicle) query.set('vehicle',section.dataset.vehicle);
+    const vehicle = pack.clean === 'bike' ? 'motorbike' : section.dataset.vehicle;
+    if (vehicle) query.set('vehicle',vehicle);
     for (const [key,value] of Object.entries(options)) {
       if (value && value !== 'small') query.set(key,value === true ? '1' : String(value));
     }
@@ -62,7 +63,10 @@
       : 'Choosing a video edit without a filming time adds a 45-minute filming session.';
     document.querySelector('#package-addons').hidden = !(pack.clean || pack.minutes || includesReel);
     if (detailing) {
-      const hasInterior = pack.clean !== 'exterior';
+      const isBike = pack.clean === 'bike';
+      const hasInterior = ['interior','both'].includes(pack.clean);
+      document.querySelector('#package-vehicle-size').hidden = isBike;
+      form.elements.size.disabled = isBike;
       document.querySelector('#package-pet-hair').hidden = !hasInterior || Boolean(pack.includesPetHair);
       document.querySelector('#package-pet-included').hidden = !pack.includesPetHair;
       form.elements.petHair.disabled = !hasInterior || Boolean(pack.includesPetHair);
@@ -93,9 +97,10 @@
 
   const packages = Q.packages.filter(pack => pack.extraPrice === undefined);
   document.querySelector('#package-list').replaceChildren(...packages
-    .filter(pack => detailing ? pack.clean && !pack.photos : !pack.clean)
+    .filter(pack => detailing ? pack.clean && pack.clean !== 'bike' && !pack.photos : !pack.clean)
     .map(card));
   if (detailing) {
+    document.querySelector('#package-bike-list').replaceChildren(card(packages.find(pack => pack.clean === 'bike')));
     document.querySelector('#package-bundle-list').replaceChildren(...packages
       .filter(pack => pack.clean && pack.photos)
       .map(card));
@@ -110,7 +115,7 @@
   survey.addEventListener('submit',event => {
     event.preventDefault();
     const inputs = Object.fromEntries(new FormData(survey));
-    const id = detailing ? Q.estimate(inputs).ids[0] : inputs.media;
+    const id = inputs.clean === 'bike' ? 'motorbike-detail' : detailing ? Q.estimate(inputs).ids[0] : inputs.media;
     const pack = packages.find(item => item.id === id);
     const recommendation = document.querySelector('#package-recommendation');
     const button = node('button',detailing || pack.minutes || pack.id === 'photo-reel'

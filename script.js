@@ -7,16 +7,21 @@ const customSelects = document.querySelectorAll("[data-custom-select]");
 const contactForm = document.querySelector("[data-contact-form]");
 
 if (menuButton && nav) {
-  menuButton.addEventListener("click", () => {
-    const isOpen = menuButton.getAttribute("aria-expanded") === "true";
-    menuButton.setAttribute("aria-expanded", String(!isOpen));
-    nav.classList.toggle("is-open", !isOpen);
-  });
+  function setMenu(open) {
+    menuButton.setAttribute("aria-expanded", String(open));
+    menuButton.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+    nav.classList.toggle("is-open", open);
+  }
 
-  nav.addEventListener("click", (event) => {
-    if (event.target instanceof HTMLAnchorElement) {
-      menuButton.setAttribute("aria-expanded", "false");
-      nav.classList.remove("is-open");
+  menuButton.addEventListener("click", () => setMenu(menuButton.getAttribute("aria-expanded") !== "true"));
+  document.addEventListener("click", event => {
+    if (nav.classList.contains("is-open") &&
+        (!header.contains(event.target) || (nav.contains(event.target) && event.target.closest("a")))) setMenu(false);
+  });
+  document.addEventListener("keydown", event => {
+    if (event.key === "Escape" && nav.classList.contains("is-open")) {
+      setMenu(false);
+      menuButton.focus();
     }
   });
 }

@@ -9,6 +9,8 @@
   const heading = document.querySelector('#account-heading');
   const signOut = document.querySelector('#sign-out');
   let invite = new URLSearchParams(location.hash.slice(1)).get('invite');
+  const returnTo = new URLSearchParams(location.search).get('returnTo') || '';
+  const bookingReturn = returnTo === '/book.html' || returnTo.startsWith('/book.html?') ? returnTo : '';
   if (location.hash) history.replaceState(null, '', location.pathname + location.search);
 
 
@@ -39,6 +41,11 @@
       );
       if (booking.customer_name) card.append(node('p', 'Customer · ' + booking.customer_name));
       if (booking.location) card.append(node('p', 'Location · ' + booking.location));
+      if (booking.phone) {
+        const phone = node('a', 'Call ' + booking.phone);
+        phone.href = 'tel:' + booking.phone.replace(/[^+0-9]/g, '');
+        card.append(phone);
+      }
       if (booking.notes) card.append(node('p', booking.notes));
       container.append(card);
     }
@@ -79,6 +86,11 @@
       }
       if (!response.ok) throw Error();
       const data = await response.json();
+      if (bookingReturn) {
+        markSession(true);
+        location.replace(bookingReturn);
+        return;
+      }
       const now = ukClock.format(new Date());
       const isAdmin = data.customer.isAdmin === true;
       const upcoming = data.bookings.filter(booking => booking.status === 'confirmed' &&

@@ -10,18 +10,22 @@
   <link rel="stylesheet" href="account.css?v=1">
   <script src="account-nav.js?v=profile1" defer></script>
   <link rel="stylesheet" href="package-booking.css?v=2">
-  <script src="quote-model.js?v=package1" defer></script>
-  <script src="book.js?v=calendar3" defer></script>
-</head>
+  <script src="quote-model.js?v=bike1" defer></script>
+  <script src="book.js?v=booking-phone1" defer></script>
+<link rel="stylesheet" href="theme.css?v=1"><script src="theme.js?v=1"></script></head>
 <body>
   <main class="account-shell">
     <section class="glass">
-      <div class="account-actions"><a href="index.html">Back to Holostasis</a><a href="account.html" data-account-nav>Log in</a></div>
+      <div class="account-actions"><a href="index.html">Back to Holostasis</a><a href="account.html" class="account-link" data-account-nav>Log in</a><button class="theme-toggle" type="button" data-theme-toggle>Light mode</button></div>
       <p class="eyebrow">Holostasis Automotive</p>
       <h1>Book a service</h1>
       <p>Choose an available appointment to hold it for 10 minutes while you finish booking. Times are shown in UK local time.</p>
       <p id="booking-package" class="package-estimate" hidden></p>
       <p id="booking-package-options" hidden></p>
+      <div class="booking-login-prompt" data-guest-prompt hidden>
+        <p>Log in or create an account before booking to see this appointment in your Profile. You can also book as a guest.</p>
+        <a class="button primary" href="account.html" data-booking-login>Log in or sign up</a>
+      </div>
       <p id="booking-status" role="status"></p>
     </section>
     <section class="glass booking-picker">
@@ -54,11 +58,13 @@
       <p id="chosen-time"></p>
       <p id="hold-expiry"></p>
       <p id="booking-identity"></p>
+      <p data-guest-prompt hidden><a href="account.html" data-booking-login>Log in or sign up</a> to keep this booking in your Profile.</p>
       <form id="reserve-form" class="contact-form">
         <div id="guest-details" class="form-grid">
           <label>Your name <input name="name" autocomplete="name" maxlength="100" required></label>
           <label>Your email <input name="email" type="email" autocomplete="email" maxlength="254" required></label>
         </div>
+        <label>Phone number (optional) <input name="phone" type="tel" autocomplete="tel" maxlength="32"></label>
         <label>Street address or meeting point <input name="location" autocomplete="street-address" maxlength="200" required></label>
         <label>Anything Holostasis should know? <textarea name="notes" maxlength="1000" rows="3"></textarea></label>
         <label hidden aria-hidden="true">Website <input name="website" tabindex="-1" autocomplete="off"></label>

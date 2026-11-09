@@ -9,6 +9,10 @@
     {id:'mini',name:'Mini Valet',price:45,clean:'both',depth:1,scope:'Exterior Maintenance plus Interior Refresh. Allow approximately 1.5–2 hours on site.'},
     {id:'full',name:'Full Valet',price:80,clean:'both',depth:2,includesPetHair:true,scope:'Enhanced Exterior plus Interior Detail, including pet hair removal. Extraction and decontamination are separate.'}
   ];
+  const motorbikeDetail = {
+    id:'motorbike-detail',name:'Motorbike Clean',price:35,clean:'bike',
+    scope:'A gentle hand wash for the tank, fairings and accessible bodywork, wheel and mudguard cleaning, windscreen wipe and hand drying. Allow about 1 hour. Chain cleaning and lubrication are excluded.'
+  };
   const photography = [
     {id:'snapshot',name:'Snapshot',price:40,photos:5,scope:'5 edited photos, up to 30 minutes, one location.'},
     {id:'portfolio',name:'Portfolio',price:65,photos:12,scope:'12 edited photos, up to 60 minutes, one location.'},
@@ -23,7 +27,7 @@
   const photoReel = {id:'photo-reel',name:'Photo + Reel',price:90,photos:5,scope:'5 edited photos and one short reel, with up to an hour on location. Extra edits can be added.'};
   const cleanCapture = {id:'clean-capture',name:'Clean Capture',price:80,clean:'both',depth:1,photos:5,scope:'Mini Valet and 5 edited photos.'};
   const signature = {id:'signature',name:'Signature Showcase',price:195,clean:'both',depth:2,includesPetHair:true,photos:10,scope:'Full Valet, 10 edited photos and one short reel. Extra edits can be added.'};
-  const packages = [...cleaningPackages, ...photography, ...filmingSessions, shortEdit, longEdit, photoReel, cleanCapture, signature];
+  const packages = [...cleaningPackages, motorbikeDetail, ...photography, ...filmingSessions, shortEdit, longEdit, photoReel, cleanCapture, signature];
 
   const money = value => new Intl.NumberFormat('en-GB',{style:'currency',currency:'GBP',maximumFractionDigits:0}).format(value);
   const cost = items => items.reduce((total,item) => total + item.price, 0);
@@ -74,7 +78,7 @@
     const edits = canAddVideo ? videoEdits(shortReels,longVideos,includesReel) : [];
     const lines = [pack,photo,filming,...edits].filter(Boolean)
       .map(p => ({label:p.name,min:p.price,max:p.price}));
-    lines.push(...vehicleLines(pack.clean,size,input.petHair,pack.includesPetHair));
+    if (pack.clean !== 'bike') lines.push(...vehicleLines(pack.clean,size,input.petHair,pack.includesPetHair));
     return {
       pack, lines,
       min:lines.reduce((total,line) => total+line.min,0),

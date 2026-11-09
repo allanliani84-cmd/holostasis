@@ -100,6 +100,11 @@
       buttons.className = 'account-actions';
       if (slot.booking_id) {
         card.append(node('p', slot.name + ' · ' + slot.email), node('p', slot.location));
+        if (slot.phone) {
+          const phone = node('a', 'Call ' + slot.phone);
+          phone.href = 'tel:' + slot.phone.replace(/[^+0-9]/g, '');
+          card.append(phone);
+        }
         if (slot.notes) card.append(node('p', slot.notes));
         if (!slot.customer_id) buttons.append(action('Link to account', { action: 'link-guest', id: slot.booking_id },
           'Booking linked.', 'Confirm you have verified that this email belongs to the customer.'));
