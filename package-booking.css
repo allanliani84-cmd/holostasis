@@ -28,3 +28,5 @@
   .package-card .button { width: 100%; }
   .package-options { padding: .9rem; }
 }
+#postcode-form input { font-size: 16px; min-height: 44px; }
+#postcode-form .button { min-height: 44px; }

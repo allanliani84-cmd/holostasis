@@ -37,9 +37,15 @@
     const summary = document.querySelector('#booking-package-options');
     summary.textContent = bookingNotes.join(' · ');
     summary.hidden = !bookingNotes.length;
-    document.querySelector('#all-times').hidden = false;
     form.elements.notes.maxLength = Math.max(0,1000-bookingNotes.join('\n').length-2);
   }
+  const postcodeForm = document.querySelector('#postcode-form');
+  const postcodeInput = postcodeForm.elements.postcode;
+  const postcodeSubmit = postcodeForm.querySelector('button');
+  const refresh = document.querySelector('#refresh-times');
+  const selection = JSON.stringify([quote?.pack.id,options]);
+  const packageRequest = quote ? { package:quote.pack.id,...options } : null;
+  let postcode = '';
   let slots = [];
   let month;
   let day;
@@ -85,7 +91,7 @@
     held = slot;
     formStatus.textContent = '';
     try {
-      if (held) sessionStorage.setItem(storageKey, JSON.stringify({ key, slot: held }));
+      if (held) sessionStorage.setItem(storageKey, JSON.stringify({ key, slot: held, postcode, selection }));
       else sessionStorage.removeItem(storageKey);
     } catch { /* The calendar also works with browser storage disabled. */ }
     details.hidden = !held;
@@ -116,7 +122,14 @@
       select.addEventListener('click', () => run(select, async () => {
         document.querySelector('#booking-done').hidden = true;
         try {
-          const result = await request({ action:'hold', id:slot.id, key });
+          if (held) {
+            await request({ action:'release', id:held.id, key });
+            showHold(null);
+          }
+          key = newKey();
+          const result = await request({
+            action:'hold', id:slot.id, key, ...packageRequest, postcode, day:slot.day, time:slot.time,
+          });
           showHold({ ...slot, expires:result.expires });
           message.textContent = 'Your appointment time is held.';
           details.scrollIntoView({ block:'nearest' });
@@ -138,8 +151,8 @@
     if (!slots.length) {
       list.replaceChildren();
       timeLabel.textContent = quote
-        ? 'There are no published times for '+quote.pack.name+' yet. Check back or contact Holostasis.'
-        : 'There are no available appointments right now. Check back or contact Holostasis.';
+        ? (postcode ? 'No times fit this package in the next four weeks. Try a different package or contact Holostasis.' : '')
+        : 'Choose a service package to see its available times.';
       return;
     }
     const firstMonth = slots[0].day.slice(0,7);
@@ -177,7 +190,9 @@
   next.addEventListener('click',() => { month = shiftMonth(month,1); day = null; renderCalendar(); });
 
   async function load() {
-    const data = await request();
+    if (quote && !postcode) return;
+    const data = await request(quote ? { action:'availability', ...packageRequest, postcode } : undefined);
+    refresh.hidden = false;
     customer = data.customer;
     document.querySelector('#guest-details').hidden = Boolean(customer);
     for (const name of ['name','email']) form.elements[name].disabled = Boolean(customer);
@@ -211,7 +226,7 @@
       const data = Object.fromEntries(new FormData(form));
       if (bookingNotes?.length) data.notes = [...bookingNotes,data.notes].filter(Boolean).join('\n');
       try {
-        await request({ ...data, action: 'book', id: slot.id, key, asGuest: !customer });
+        await request({ ...data, action: 'book', id: slot.id, key, postcode, asGuest: !customer });
       } catch (error) {
         if (error.status === 409) {
           showHold(null);
@@ -244,18 +259,46 @@
       await load();
     });
   });
-  document.querySelector('#refresh-times').addEventListener('click', event => run(event.currentTarget, load));
+  postcodeForm.hidden = !quote;
+  postcodeForm.addEventListener('submit', event => {
+    event.preventDefault();
+    run(postcodeSubmit, async () => {
+      if (held) await request({ action:'release', id:held.id, key });
+      showHold(null);
+      postcode = postcodeInput.value.trim().toUpperCase();
+      slots = [];
+      month = null;
+      day = null;
+      monthPanel.hidden = true;
+      timeLabel.textContent = '';
+      list.replaceChildren();
+      refresh.hidden = true;
+      message.textContent = 'Checking availability…';
+      await load();
+      message.textContent = slots.length ? 'Choose an available date, then pick a time.' : '';
+      if (slots.length) monthPanel.scrollIntoView({ block:'nearest' });
+    });
+  });
+  refresh.addEventListener('click', event => run(event.currentTarget, load));
   run(null, async () => {
-    await load();
     const saved = savedHold();
-    if (saved) key = saved.key;
-    if (saved && matches(saved.slot)) {
+    if (saved && matches(saved.slot) && (!quote || (saved.postcode && saved.selection===selection))) {
+      key = saved.key;
+      postcode = saved.postcode || '';
+      postcodeInput.value = postcode;
+      await load();
       day = saved.slot.day;
       month = day.slice(0,7);
       showHold(saved.slot);
       renderCalendar();
       message.textContent = 'Finish booking your held appointment.';
     } else {
+      if (saved) {
+        await request({ action:'release', id:saved.slot.id, key:saved.key });
+        showHold(null);
+      }
+      await load();
+      renderCalendar();
       message.textContent = slots.length ? 'Choose an available date, then pick a time.' : '';
     }
   });

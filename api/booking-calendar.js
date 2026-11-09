@@ -21,10 +21,12 @@ module.exports = async function handler(req, res) {
     if (req.headers.origin !== 'https://' + req.headers.host) return fail(403, 'Use the website to book.');
     try {
       const data = typeof req.body === 'string' ? JSON.parse(req.body) : req.body;
-      if (!['hold','release','book'].includes(data?.action)) return fail(400, 'Invalid booking action.');
+      if (!['availability','hold','release','book'].includes(data?.action)) return fail(400, 'Invalid booking action.');
       body = JSON.stringify({
         action:data.action,id:data.id,key:data.key,name:data.name,email:data.email,
         location:data.location,notes:data.notes,website:data.website,asGuest:data.asGuest,termsVersion:data.termsVersion,
+        package:data.package,day:data.day,time:data.time,postcode:data.postcode,size:data.size,petHair:data.petHair,
+        photos:data.photos,filming:data.filming,shortReels:data.shortReels,longVideos:data.longVideos,
       });
       if (body.length>5000) return fail(413, 'The request is too large.');
     } catch {

@@ -9,9 +9,9 @@
   <link rel="stylesheet" href="styles.css?v=phone3">
   <link rel="stylesheet" href="account.css?v=1">
   <script src="account-nav.js?v=profile1" defer></script>
-  <link rel="stylesheet" href="package-booking.css?v=1">
+  <link rel="stylesheet" href="package-booking.css?v=2">
   <script src="quote-model.js?v=package1" defer></script>
-  <script src="book.js?v=calendar2" defer></script>
+  <script src="book.js?v=calendar3" defer></script>
 </head>
 <body>
   <main class="account-shell">
@@ -22,10 +22,15 @@
       <p>Choose an available appointment to hold it for 10 minutes while you finish booking. Times are shown in UK local time.</p>
       <p id="booking-package" class="package-estimate" hidden></p>
       <p id="booking-package-options" hidden></p>
-      <p id="booking-status" role="status">Checking availability…</p>
+      <p id="booking-status" role="status"></p>
     </section>
     <section class="glass booking-picker">
       <h2>Choose a date and time</h2>
+      <form id="postcode-form" class="contact-form" hidden>
+        <label>Service postcode <input name="postcode" autocomplete="postal-code" autocapitalize="characters" maxlength="10" placeholder="e.g. B69 1AA" required></label>
+        <p>We use this to leave enough travel time between jobs.</p>
+        <div class="account-actions"><button class="button primary" type="submit">Show available times</button></div>
+      </form>
       <div id="booking-month" hidden>
         <div class="booking-month-nav">
           <button id="booking-previous" class="button ghost" type="button" aria-label="Previous month">‹</button>
@@ -40,8 +45,8 @@
       <p id="booking-times-label" aria-live="polite"></p>
       <div id="available-times" class="booking-times"></div>
       <div class="account-actions">
-        <button id="refresh-times" class="button ghost" type="button">Refresh times</button>
-        <a id="all-times" href="book.html" hidden>View all services and times</a>
+        <button id="refresh-times" class="button ghost" type="button" hidden>Refresh times</button>
+        <a href="index.html#projects">Browse services</a>
       </div>
     </section>
     <section id="booking-details" class="glass" hidden>
@@ -54,7 +59,7 @@
           <label>Your name <input name="name" autocomplete="name" maxlength="100" required></label>
           <label>Your email <input name="email" type="email" autocomplete="email" maxlength="254" required></label>
         </div>
-        <label>Service address or meeting point <input name="location" autocomplete="street-address" maxlength="200" required></label>
+        <label>Street address or meeting point <input name="location" autocomplete="street-address" maxlength="200" required></label>
         <label>Anything Holostasis should know? <textarea name="notes" maxlength="1000" rows="3"></textarea></label>
         <label hidden aria-hidden="true">Website <input name="website" tabindex="-1" autocomplete="off"></label>
         <p>This reserves your time without payment. Holostasis will agree the service and total price with you separately.</p>
