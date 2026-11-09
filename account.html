@@ -5,26 +5,52 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="robots" content="noindex">
   <meta name="referrer" content="no-referrer">
-  <title>My Bookings | Holostasis</title>
-  <link rel="icon" href="favicon.ico">
+  <title>Log in | Holostasis</title>
+  <link rel="icon" href="favicon.ico?v=phone3" sizes="32x32"><link rel="icon" type="image/svg+xml" href="favicon.svg?v=phone3"><link rel="apple-touch-icon" sizes="180x180" href="assets/logo-icon-180.png"><link rel="stylesheet" href="brand-intro.css?v=phone3"><script src="brand-intro.js?v=phone3"></script><link rel="preload" as="image" href="assets/brand-opening-mobile.webp?v=phone3" media="(max-width: 760px), (pointer: coarse)">
   <link rel="stylesheet" href="styles.css?v=phone3">
-  <link rel="stylesheet" href="account.css?v=1">
-  <script src="account.js?v=password1" defer></script>
+  <link rel="stylesheet" href="account.css?v=signup1">
+  <script src="account.js?v=signup1" defer></script>
 </head>
-<body>
+<body><div class="brand-intro" aria-hidden="true"><div class="brand-intro-scene"><picture class="brand-phone-playback"><source media="(max-width: 760px), (pointer: coarse)" srcset="assets/brand-opening-mobile.webp?v=phone3"><img src="assets/finished-logo.webp" alt="" width="480" height="430" fetchpriority="high" decoding="async"></picture><svg class="brand-flower" viewBox="0 0 448 693" aria-hidden="true"><defs><linearGradient id="morph-water" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#d4ecff"/><stop offset=".45" stop-color="#8daac9"/><stop offset="1" stop-color="#c56c82"/></linearGradient><filter id="logo-morph" x="-60%" y="-40%" width="220%" height="180%"><feTurbulence type="fractalNoise" baseFrequency=".012 .022" numOctaves="2" seed="5" result="flow"><animate attributeName="baseFrequency" values=".025 .016;.012 .025;.008 .012" dur="1.65s" fill="freeze"/></feTurbulence><feDisplacementMap in="SourceGraphic" in2="flow" scale="170" result="warped"><animate attributeName="scale" values="170;130;65;15;0" keyTimes="0;.28;.58;.85;1" dur="1.65s" fill="freeze"/></feDisplacementMap><feGaussianBlur in="warped" stdDeviation="15"><animate attributeName="stdDeviation" values="15;12;5;0" keyTimes="0;.3;.65;1" dur="1.65s" fill="freeze"/></feGaussianBlur></filter></defs><g class="brand-morph-mark" filter="url(#logo-morph)"><image href="assets/finished-logo.webp" width="448" height="693"/></g></svg><svg class="brand-current" viewBox="0 0 480 320"><path d="M30 235C90 305 190 260 205 180S270 50 300 95 250 220 350 230 465 180 450 130"/></svg></div></div>
+    <div class="page-noise" aria-hidden="true"></div>
+
+    <header class="site-header">
+      <a class="brand home-brand" href="index.html" aria-label="Home">
+        <span class="brand-mark"><img src="assets/finished-logo.webp" alt="" /></span>
+        <span>Home</span>
+      </a>
+
+      <button class="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false">
+        <span></span>
+        <span></span>
+      </button>
+
+      <nav class="site-nav" aria-label="Main navigation">
+        <a href="index.html#projects">Services</a>
+        <a href="contact.html">Contact</a>
+        <a href="account.html" data-account-nav aria-current="page">Log in</a>
+
+      </nav>
+    </header>
   <main class="account-shell">
-    <section class="glass">
-      <a href="index.html">Back to Holostasis</a>
+    <section class="glass account-auth">
       <p class="eyebrow">Customer area</p>
       <h1 id="account-heading">Log in</h1>
-      <div class="account-actions"><a href="privacy.html">Privacy Notice</a><a href="terms.html">Account Terms</a></div>
       <p id="account-status" role="status">Checking your account…</p>
       <form id="login-form" class="contact-form" hidden>
         <label>Email <input name="email" type="email" autocomplete="username" maxlength="254" required></label>
         <label>Password <input name="password" type="password" autocomplete="current-password" maxlength="72" required></label>
         <button class="button primary" type="submit">Log in</button>
-        <p>Need an account or forgot your password? <a href="contact.html">Ask Holostasis for a setup link</a>.</p>
-        <p>Booking as a guest? <a href="book.html">Browse available appointments</a>.</p>
+        <button id="open-signup" class="button ghost" type="button">Sign up</button>
+        <p class="account-small"><a href="contact.html">Forgot your password?</a></p>
+      </form>
+      <form id="signup-form" class="contact-form" hidden>
+        <label>Name <input name="name" autocomplete="name" maxlength="100" required></label>
+        <label>Email <input name="email" type="email" autocomplete="username" maxlength="254" required></label>
+        <label>Password <input name="password" type="password" autocomplete="new-password" minlength="12" maxlength="72" aria-describedby="signup-password-help" required></label>
+        <p id="signup-password-help" class="account-small">Use at least 12 characters.</p>
+        <button class="button primary" type="submit">Create account</button>
+        <button id="open-login" class="button ghost" type="button">Back to log in</button>
       </form>
       <form id="setup-form" class="contact-form" hidden>
         <p>Choose a password to finish setting up or resetting your Holostasis account.</p>
@@ -38,6 +64,7 @@
         <a class="button ghost" href="contact.html">Ask about a booking</a>
         <button id="sign-out" class="button ghost" type="button">Sign out</button>
       </div>
+      <p class="account-small account-legal"><a href="privacy.html">Privacy</a> · <a href="terms.html">Terms</a></p>
     </section>
     <div id="account-bookings" hidden>
       <section class="glass">
@@ -51,5 +78,6 @@
       </section>
     </div>
   </main>
+  <script src="script.js?v=phone3"></script>
 </body>
 </html>

@@ -28,7 +28,6 @@
       <nav class="site-nav" aria-label="Main navigation">
         <a href="#projects">Services</a>
         <a href="contact.html">Contact</a>
-        <a href="book.html">Book a Service</a>
         <a href="account.html" data-account-nav>Log in</a>
         
       </nav>
@@ -111,6 +110,7 @@
             <strong>Pocket Rockets</strong>
           </a>
         </div>
+        <div class="bio-actions"><a class="button ghost" href="book.html">View available times</a></div>
       </section>
 
       <section class="reviews-section glass" id="reviews"><div class="section-heading"><p class="eyebrow">Client Experiences</p><h2>Reviews</h2><p>Worked with Holostasis? Share your experience and read feedback from other clients.</p></div><div class="review-layout"><div><h3>What clients say</h3><div id="review-list" aria-live="polite"><p>Loading reviews…</p></div><a id="manage-reviews" class="back-link" href="reviews-admin.html" hidden>Manage Reviews</a></div><form id="review-form" class="contact-form"><h3>Leave a review</h3><label>Display name<input name="name" required minlength="2" maxlength="60" autocomplete="name" placeholder="First name or business name"></label><div class="form-grid"><label>Service<select name="service" required><option value="">Choose a service</option><option>Auto Clean</option><option>4 Wheel Wonders</option><option>Pocket Rockets</option><option>Visual Layouts</option><option>Other</option></select></label><label>Rating<select name="rating" required><option value="">Choose a rating</option><option value="5">5 — Excellent</option><option value="4">4 — Good</option><option value="3">3 — Okay</option><option value="2">2 — Poor</option><option value="1">1 — Very poor</option></select></label></div><label>Your review<textarea name="body" rows="5" required minlength="10" maxlength="1200" placeholder="Tell us about your experience"></textarea></label><label class="review-photo-input">Photos (optional)<input type="file" name="photos" accept="image/jpeg,image/png,image/webp" multiple aria-describedby="review-photo-help"></label><p id="review-photo-help" class="review-small">Add up to 3 JPG, PNG or WebP photos. Please only share photos you have permission to publish.</p><label class="review-honeypot" aria-hidden="true">Website<input name="website" tabindex="-1" autocomplete="off"></label><label class="review-consent"><input type="checkbox" name="consent" required>I agree to my display name, rating, review and any attached photos being published on this website.</label><p class="review-small">Reviews are checked before publication. Your review is saved when you submit it. Please leave out private contact details. <a href="privacy.html">Privacy Notice</a>.</p><button class="button primary" type="submit">Submit Review</button><p id="review-status" class="form-status" role="status"></p></form></div></section>

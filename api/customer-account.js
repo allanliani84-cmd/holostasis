@@ -1,3 +1,5 @@
+const { createHmac } = require('node:crypto');
+const { isIP } = require('node:net');
 const backend = 'https://holostasis-automotive-draft.a1n2rf.chatgpt.site';
 const cookieName = '__Host-holostasis_account';
 const tokenPattern = /^[0-9a-f]{64}$/;
@@ -27,6 +29,10 @@ module.exports = async function handler(req, res) {
       } else if (data?.action === 'login' && typeof data.email === 'string' &&
                  typeof data.password === 'string' && data.email.length<=254 && data.password.length<=72) {
         payload = { action:'login', email:data.email, password:data.password };
+      } else if (data?.action === 'signup' && typeof data.name === 'string' && data.name.length<=100 &&
+                 typeof data.email === 'string' && data.email.length<=254 &&
+                 typeof data.password === 'string' && data.password.length<=72) {
+        payload = { action:'signup', name:data.name, email:data.email, password:data.password };
       } else if (data?.action === 'setup' && typeof data.invite === 'string' && tokenPattern.test(data.invite) &&
                  typeof data.password === 'string' && data.password.length<=72) {
         payload = { action:'setup', invite:data.invite, password:data.password };
@@ -40,11 +46,15 @@ module.exports = async function handler(req, res) {
     return fail(401, 'Log in to view your bookings.');
   }
 
+  const ip = req.headers['x-vercel-forwarded-for'];
+  const signupClient = payload?.action==='signup' && typeof ip==='string' && isIP(ip)
+    ? createHmac('sha256',accessToken).update(ip).digest('hex') : '';
   try {
     const response = await fetch(backend + '/api/customer-account' + (sessionOnly?'?session=1':''), {
       method: req.method,
       headers: {
         'OAI-Sites-Authorization': 'Bearer ' + accessToken,
+        ...(signupClient ? { 'X-Holostasis-Hold-Client':signupClient } : {}),
         ...(tokenPattern.test(session) ? { 'X-Holostasis-Session': session } : {}),
         ...(payload ? { 'Content-Type': 'application/json', Origin: backend } : {}),
       },

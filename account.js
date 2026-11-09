@@ -4,6 +4,7 @@
   const endpoint = '/api/customer-account';
   const status = document.querySelector('#account-status');
   const login = document.querySelector('#login-form');
+  const signup = document.querySelector('#signup-form');
   const setup = document.querySelector('#setup-form');
   const heading = document.querySelector('#account-heading');
   const signOut = document.querySelector('#sign-out');
@@ -44,10 +45,13 @@
 
   function show(mode) {
     login.hidden = mode !== 'login';
+    signup.hidden = mode !== 'signup';
     setup.hidden = mode !== 'setup';
     document.querySelector('#account-controls').hidden = mode !== 'bookings';
     document.querySelector('#account-bookings').hidden = mode !== 'bookings';
-    heading.textContent = mode === 'bookings' ? 'My Bookings' : mode === 'setup' ? 'Set your password' : 'Log in';
+    heading.textContent = mode === 'bookings' ? 'My Bookings' : mode === 'setup' ? 'Set your password' : mode === 'signup' ? 'Sign up' : 'Log in';
+    document.title = heading.textContent + ' | Holostasis';
+    document.querySelector('[data-account-nav]').textContent = mode === 'bookings' ? 'My Bookings' : 'Log in';
   }
 
   async function load() {
@@ -96,6 +100,7 @@
         return;
       }
       if (payload.action === 'login') login.reset();
+      if (payload.action === 'signup') signup.reset();
       if (payload.action === 'sign-out') {
         document.querySelector('#upcoming-bookings').replaceChildren();
         document.querySelector('#past-bookings').replaceChildren();
@@ -108,6 +113,23 @@
     }
   }
 
+  document.querySelector('#open-signup').addEventListener('click', () => {
+    show('signup');
+    status.textContent = '';
+    signup.elements.name.focus();
+  });
+  document.querySelector('#open-login').addEventListener('click', () => {
+    show('login');
+    status.textContent = '';
+    login.elements.email.focus();
+  });
+  signup.addEventListener('submit', event => {
+    event.preventDefault();
+    const fields = new FormData(signup);
+    action(event.submitter, {
+      action:'signup', name:fields.get('name'), email:fields.get('email'), password:fields.get('password')
+    });
+  });
   login.addEventListener('submit', event => {
     event.preventDefault();
     const fields = new FormData(login);

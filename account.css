@@ -13,3 +13,14 @@
 .account-shell button { cursor: pointer; }
 .account-shell button:disabled { opacity: .6; cursor: wait; }
 .account-shell input[readonly] { width: 100%; min-width: 0; }
+
+.account-shell .account-auth { max-width: 32rem; margin-inline: auto; }
+.account-auth .contact-form { margin-block: 1rem; }
+.account-auth .contact-form .button { justify-content: center; min-height: 44px; width: 100%; }
+.account-auth input:not([type="hidden"]) { min-height: 44px; font-size: max(16px, 1rem); }
+.account-small { font-size: .875rem; color: var(--muted); }
+.account-legal { margin-top: 1.25rem; }
+@media (max-width: 560px) {
+  .account-shell { margin-top: 1.25rem; }
+  .account-auth .account-actions .button { width: 100%; justify-content: center; min-height: 44px; }
+}
