@@ -37,6 +37,7 @@
         node('h3', booking.service),
         node('p', formatDay.format(new Date(booking.day + 'T12:00:00Z')) + ' · ' + booking.time + (booking.end_time ? '–' + booking.end_time : '')),
       );
+      if (booking.customer_name) card.append(node('p', 'Customer · ' + booking.customer_name));
       if (booking.location) card.append(node('p', 'Location · ' + booking.location));
       if (booking.notes) card.append(node('p', booking.notes));
       container.append(card);
@@ -50,12 +51,14 @@
 
   function show(mode, isAdmin = false) {
     document.querySelector('#owner-controls').hidden = !isAdmin;
+    for (const control of document.querySelectorAll('[data-customer-control]')) control.hidden = isAdmin;
+    document.querySelector('#owner-history-period').hidden = !isAdmin;
     login.hidden = mode !== 'login';
     signup.hidden = mode !== 'signup';
     setup.hidden = mode !== 'setup';
     document.querySelector('#account-controls').hidden = mode !== 'bookings';
     document.querySelector('#account-bookings').hidden = mode !== 'bookings';
-    heading.textContent = mode === 'bookings' ? 'My Bookings' : mode === 'setup' ? 'Set your password' : mode === 'signup' ? 'Sign up' : 'Log in';
+    heading.textContent = mode === 'bookings' ? (isAdmin ? 'Service bookings' : 'My Bookings') : mode === 'setup' ? 'Set your password' : mode === 'signup' ? 'Sign up' : 'Log in';
     document.title = heading.textContent + ' | Holostasis';
     document.querySelector('[data-account-nav]').textContent = mode === 'bookings' ? 'Profile' : 'Log in';
   }
@@ -77,13 +80,15 @@
       if (!response.ok) throw Error();
       const data = await response.json();
       const now = ukClock.format(new Date());
-      const upcoming = data.bookings.filter(booking => booking.status === 'confirmed' && booking.day + ' ' + booking.time >= now);
-      const past = data.bookings.filter(booking => !upcoming.includes(booking)).reverse();
-      renderList('#upcoming-bookings', upcoming, 'You have no upcoming bookings.');
-      renderList('#past-bookings', past, 'You have no past bookings.');
+      const isAdmin = data.customer.isAdmin === true;
+      const upcoming = data.bookings.filter(booking => booking.status === 'confirmed' &&
+        (isAdmin || booking.day + ' ' + booking.time >= now));
+      const past = data.bookings.filter(booking => isAdmin ? booking.status === 'completed' : !upcoming.includes(booking)).reverse();
+      renderList('#upcoming-bookings', upcoming, isAdmin ? 'There are no upcoming customer bookings.' : 'You have no upcoming bookings.');
+      renderList('#past-bookings', past, isAdmin ? 'No completed appointments in the last 30 days.' : 'You have no past bookings.');
       markSession(true);
       status.textContent = 'Welcome, ' + data.customer.name + '.';
-      show('bookings', data.customer.isAdmin === true);
+      show('bookings', isAdmin);
     } catch {
       show('login');
       status.textContent = 'My Bookings is temporarily unavailable. Please try again.';
