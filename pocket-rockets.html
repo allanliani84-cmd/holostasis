@@ -10,7 +10,7 @@
     <title>Pocket Rockets | Holostasis</title>
     <link rel="preload" href="assets/bg-blurred.webp" as="image" />
     <link rel="stylesheet" href="styles.css?v=phone3" /><link rel="stylesheet" href="automotive.css?v=phone3" />
-  <link rel="icon" href="favicon.ico?v=phone3" sizes="32x32"><link rel="icon" type="image/svg+xml" href="favicon.svg?v=phone3"><link rel="apple-touch-icon" sizes="180x180" href="assets/logo-icon-180.png"><link rel="stylesheet" href="brand-intro.css?v=phone3"><script src="brand-intro.js?v=phone3"></script><link rel="preload" as="image" href="assets/brand-opening-mobile.webp?v=phone3" media="(max-width: 760px), (pointer: coarse)"><script src="account-nav.js?v=1" defer></script></head>
+  <link rel="icon" href="favicon.ico?v=phone3" sizes="32x32"><link rel="icon" type="image/svg+xml" href="favicon.svg?v=phone3"><link rel="apple-touch-icon" sizes="180x180" href="assets/logo-icon-180.png"><link rel="stylesheet" href="brand-intro.css?v=phone3"><script src="brand-intro.js?v=phone3"></script><link rel="preload" as="image" href="assets/brand-opening-mobile.webp?v=phone3" media="(max-width: 760px), (pointer: coarse)"><script src="account-nav.js?v=profile1" defer></script><link rel="stylesheet" href="package-booking.css?v=1"></head>
   <body><div class="brand-intro" aria-hidden="true"><div class="brand-intro-scene"><picture class="brand-phone-playback"><source media="(max-width: 760px), (pointer: coarse)" srcset="assets/brand-opening-mobile.webp?v=phone3"><img src="assets/finished-logo.webp" alt="" width="480" height="430" fetchpriority="high" decoding="async"></picture><svg class="brand-flower" viewBox="0 0 448 693" aria-hidden="true"><defs><linearGradient id="morph-water" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#d4ecff"/><stop offset=".45" stop-color="#8daac9"/><stop offset="1" stop-color="#c56c82"/></linearGradient><filter id="logo-morph" x="-60%" y="-40%" width="220%" height="180%"><feTurbulence type="fractalNoise" baseFrequency=".012 .022" numOctaves="2" seed="5" result="flow"><animate attributeName="baseFrequency" values=".025 .016;.012 .025;.008 .012" dur="1.65s" fill="freeze"/></feTurbulence><feDisplacementMap in="SourceGraphic" in2="flow" scale="170" result="warped"><animate attributeName="scale" values="170;130;65;15;0" keyTimes="0;.28;.58;.85;1" dur="1.65s" fill="freeze"/></feDisplacementMap><feGaussianBlur in="warped" stdDeviation="15"><animate attributeName="stdDeviation" values="15;12;5;0" keyTimes="0;.3;.65;1" dur="1.65s" fill="freeze"/></feGaussianBlur></filter></defs><g class="brand-morph-mark" filter="url(#logo-morph)"><image href="assets/finished-logo.webp" width="448" height="693"/></g></svg><svg class="brand-current" viewBox="0 0 480 320"><path d="M30 235C90 305 190 260 205 180S270 50 300 95 250 220 350 230 465 180 450 130"/></svg></div></div>
     <div class="page-noise" aria-hidden="true"></div>
 
@@ -43,13 +43,45 @@
             Dark, compact motorbike visuals built around rider presence, urban atmosphere, and fast
             social-first framing for reels, thumbnails, and campaign posts.
           </p>
-          <div class="bio-actions"><a class="button primary" href="#finder">Plan My Shoot</a></div>
+          <div class="bio-actions"><a class="button primary" href="#finder">View Packages</a></div>
         </div>
         <div class="project-detail-media">
           <img src="assets/project-pocket-rockets.webp" alt="Motorbike close-up with dark fairing detail" / loading="lazy" decoding="async">
         </div>
       </section>
 
+      <section id="finder" class="auto-section auto-catalogue package-section glass" data-package-type="media" data-vehicle="motorbike">
+      <h2>Choose a photo or video package</h2>
+      <p>Pick the photos or video you want, then choose a time. Travel is quoted separately.</p>
+      <div class="package-grid" id="package-list"></div>
+
+      <form id="package-options" class="contact-form package-options" hidden>
+        <h3 id="package-choice" tabindex="-1"></h3>
+
+        <details id="package-addons">
+          <summary>Video edits (optional)</summary>
+          <div class="package-extra-fields">
+            <p id="package-addon-help" class="small" hidden></p>
+
+            <div class="form-grid">
+              <label>Short reels (up to 30 seconds)<input type="number" name="shortReels" value="0" min="0" step="1" inputmode="numeric"></label>
+              <label>Longer edits (31–60 seconds)<input type="number" name="longVideos" value="0" min="0" step="1" inputmode="numeric"></label>
+            </div>
+          </div>
+        </details>
+        <p id="package-estimate" class="package-estimate" aria-live="polite"></p>
+        <p class="small">The price excludes travel. Holostasis will confirm the total and any extra time for add-ons.</p>
+        <button class="button primary" type="submit">See available dates</button>
+      </form>
+      <details class="package-help">
+        <summary>Help me choose</summary>
+        <form id="package-survey" class="contact-form package-extra-fields">
+          <label>What would you like?<select name="media"><option value="snapshot">A few photos</option><option value="portfolio">More photo angles</option><option value="filming-45">A video</option><option value="photo-reel">Photos and a reel</option></select></label>
+          <button class="button ghost" type="submit">Suggest a package</button>
+        </form>
+        <p id="package-recommendation" role="status"></p>
+      </details>
+</section>
       <section class="gallery-section" data-reveal>
         <div class="gallery-heading">
           <p class="eyebrow">Gallery</p>
@@ -72,36 +104,7 @@
         </div>
       </section>
 
-      <section id="finder" class="auto-section is-visible"><p class="eyebrow">Photography &amp; Videography Enquiry</p><h2>Plan your photo / video shoot</h2><p>Choose your photographs and video, tell me where you would like to shoot, and get an indicative estimate.</p><div class="auto-grid"><form data-media-only="true" id="enquiry" class="contact-form auto-panel glass">
-<input type="hidden" name="clean" value="none"><input type="hidden" name="size" value="small"><input type="hidden" name="condition" value="normal"><div class="form-grid">
-
-
-
-<label>Edited photographs<select name="photos"><option value="0">No photography</option><option value="5" selected>At least 5 photos</option><option value="12">At least 12 photos</option><option value="20">At least 20 photos</option></select></label>
-<label>Filming time<select name="filming"><option value="0">No filming selected</option><option value="45">Up to 45 minutes</option><option value="90">Up to 90 minutes</option></select></label>
-<label>Short reels (up to 30 seconds each)<input type="number" name="shortReels" min="0" step="1" value="0" inputmode="numeric" aria-describedby="video-quote-help"></label>
-<label>Longer videos (31–60 seconds each)<input type="number" name="longVideos" min="0" step="1" value="0" inputmode="numeric" aria-describedby="video-quote-help"></label>
-<p class="small form-wide" id="video-quote-help">Filming is priced by session. Choose how many edits you want from the shoot. If you select edits without a filming time, the estimate uses the 45-minute session.</p>
-
-</div>
-
-<label class="auto-check"><input name="custom" type="checkbox">I need something extra / a custom service</label>
-<div class="form-grid">
-<label>Your name<input name="name" autocomplete="name" required maxlength="100"></label>
-<label>Email<input name="email" type="email" autocomplete="email" required maxlength="200"></label>
-<label>Service postcode<input name="postcode" autocomplete="postal-code" required maxlength="12"></label>
-<label class="form-wide">Service location / full address<input name="location" autocomplete="street-address" required maxlength="250" placeholder="Address or agreed shoot location"></label>
-<label>Vehicle make & model<input name="vehicle" required maxlength="150" placeholder="e.g. Yamaha MT-07"></label>
-
-<label>Main purpose<select name="purpose"><option>Personal / enthusiast</option><option>Preparing to sell</option><option>Social media content</option><option>Business / dealership</option></select></label>
-<label class="form-wide">Anything else we should know?<textarea name="notes" maxlength="2000" placeholder="Desired shots, style, social platforms or any special requests"></textarea></label>
-</div>
-<p class="small">Your details stay in this page until you choose to email or download them. Email opens a draft addressed to hello@holostasis.co.uk; review it and press Send in your email app. A booking is confirmed only after a reply.</p>
-<p class="small">Ready to reserve a time? <a href="book.html">Open the live booking calendar</a>.</p><div class="form-actions"><button class="button primary" type="submit" id="email-enquiry">Email My Enquiry</button><button class="button ghost" type="button" id="download">Download Summary</button></div><p class="status small" id="status" role="status"></p>
-</form>
-<aside class="auto-panel auto-estimate glass"><span class="eyebrow">Your recommendation</span><div id="estimate" aria-live="polite" aria-atomic="true"></div><p class="notice">This is an estimate, not a confirmed booking. Outbound and return travel are awaiting a separate quote; they are not included in the displayed service subtotal. Custom work is additional. No payment is taken here.</p></aside>
-</div></section>
-<section class="auto-section auto-catalogue glass" data-reveal><p class="eyebrow">Photo &amp; Video</p><h2>Choose your content</h2><p>Launch prices for one stationary vehicle. Choose photos, a filming session with the edits you want, or a Photo + Reel bundle. Travel is quoted separately.</p><div id="catalogue"></div></section>    <section class="project-more glass service-shortcuts is-visible" aria-label="Other services"><div class="section-heading"><p class="eyebrow">More Services</p><h2>Explore More Services</h2></div><div class="project-grid"><a class="project-card" href="automotive.html" data-tilt><img src="assets/detailing-thumbnail.jpg" alt="Lamborghini badge on polished blue paintwork" loading="lazy"><span>Detailing</span><strong>Auto Clean</strong></a>
+      <section class="project-more glass service-shortcuts is-visible" aria-label="Other services"><div class="section-heading"><p class="eyebrow">More Services</p><h2>Explore More Services</h2></div><div class="project-grid"><a class="project-card" href="automotive.html" data-tilt><img src="assets/detailing-thumbnail.jpg" alt="Lamborghini badge on polished blue paintwork" loading="lazy"><span>Detailing</span><strong>Auto Clean</strong></a>
 <a class="project-card" href="4-wheel-wonders.html" data-tilt><img src="assets/project-4-wheel-wonders.webp" alt="Automotive photography by Holostasis" loading="lazy"><span>Auto Photography</span><strong>4 Wheel Wonders</strong></a>
 <a class="project-card" href="visual-layouts.html" data-tilt><img src="assets/project-visual-layouts.webp" alt="Creative photo and video editing by Holostasis" loading="lazy"><span>Photo / Video / Edits</span><strong>Visual Layouts</strong></a></div></section>
 </main>
@@ -111,6 +114,6 @@
       <span>Pocket Rockets</span>
     </footer>
 
-    <script src="script.js?v=phone3"></script><script src="quote-model.js?v=launch-prices2"></script><script src="automotive.js?v=calendar1"></script>
+    <script src="script.js?v=phone3"></script><script src="quote-model.js?v=package1"></script><script src="packages.js?v=1"></script>
   </body>
 </html>

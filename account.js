@@ -43,6 +43,11 @@
     }
   }
 
+  function markSession(signedIn) {
+    try { sessionStorage.setItem('holostasis-profile', signedIn ? '1' : '0'); }
+    catch { /* Session checks still work if browser storage is disabled. */ }
+  }
+
   function show(mode, isAdmin = false) {
     document.querySelector('#owner-controls').hidden = !isAdmin;
     login.hidden = mode !== 'login';
@@ -52,7 +57,7 @@
     document.querySelector('#account-bookings').hidden = mode !== 'bookings';
     heading.textContent = mode === 'bookings' ? 'My Bookings' : mode === 'setup' ? 'Set your password' : mode === 'signup' ? 'Sign up' : 'Log in';
     document.title = heading.textContent + ' | Holostasis';
-    document.querySelector('[data-account-nav]').textContent = mode === 'bookings' ? 'My Bookings' : 'Log in';
+    document.querySelector('[data-account-nav]').textContent = mode === 'bookings' ? 'Profile' : 'Log in';
   }
 
   async function load() {
@@ -64,6 +69,7 @@
     try {
       const response = await fetch(endpoint, { cache: 'no-store' });
       if (response.status === 401) {
+        markSession(false);
         show('login');
         status.textContent = 'Log in to see your appointments.';
         return;
@@ -75,6 +81,7 @@
       const past = data.bookings.filter(booking => !upcoming.includes(booking)).reverse();
       renderList('#upcoming-bookings', upcoming, 'You have no upcoming bookings.');
       renderList('#past-bookings', past, 'You have no past bookings.');
+      markSession(true);
       status.textContent = 'Welcome, ' + data.customer.name + '.';
       show('bookings', data.customer.isAdmin === true);
     } catch {
@@ -94,6 +101,7 @@
       const data = await response.json();
       if (!response.ok) throw Error(data.error);
       if (payload.action === 'setup') {
+        markSession(false);
         invite = null;
         setup.reset();
         show('login');
@@ -103,6 +111,7 @@
       if (payload.action === 'login') login.reset();
       if (payload.action === 'signup') signup.reset();
       if (payload.action === 'sign-out') {
+        markSession(false);
         document.querySelector('#upcoming-bookings').replaceChildren();
         document.querySelector('#past-bookings').replaceChildren();
       }

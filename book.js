@@ -9,6 +9,40 @@
   const submit = form.querySelector('button[type=submit]');
   const release = document.querySelector('#release-time');
   const formatDay = new Intl.DateTimeFormat('en-GB', { dateStyle: 'full', timeZone: 'UTC' });
+  const formatMonth = new Intl.DateTimeFormat('en-GB', { month:'long', year:'numeric', timeZone:'UTC' });
+  const dateButtons = document.querySelector('#booking-days');
+  const previous = document.querySelector('#booking-previous');
+  const next = document.querySelector('#booking-next');
+  const monthPanel = document.querySelector('#booking-month');
+  const timeLabel = document.querySelector('#booking-times-label');
+  const parameters = new URLSearchParams(location.search);
+  const options = Object.fromEntries(['size','photos','filming','shortReels','longVideos']
+    .map(name => [name,parameters.get(name) || '']));
+  options.petHair = parameters.get('petHair') === '1';
+  const quote = window.HolostasisQuote.estimatePackage(parameters.get('package'),options);
+  const normalize = text => text.trim().toLowerCase().replace(/[^a-z0-9]+/g,' ').trim();
+  const matches = slot => !quote || normalize(slot.service) === normalize(quote.pack.name);
+  const total = quote && (window.HolostasisQuote.money(quote.min) +
+    (quote.max===quote.min ? '' : '–'+window.HolostasisQuote.money(quote.max)));
+  const vehicle = parameters.get('vehicle');
+  const bookingNotes = quote && [
+    ...(['car','motorbike'].includes(vehicle) ? ['Vehicle: '+vehicle] : []),
+    ...(quote.pack.clean ? ['Vehicle: '+(['small','medium','large'].includes(options.size) ? options.size : 'small')] : []),
+    ...quote.lines.slice(1).map(line => line.label),
+  ];
+  if (quote) {
+    const title = document.querySelector('#booking-package');
+    title.textContent = quote.pack.name + ' · estimated ' + total;
+    title.hidden = false;
+    const summary = document.querySelector('#booking-package-options');
+    summary.textContent = bookingNotes.join(' · ');
+    summary.hidden = !bookingNotes.length;
+    document.querySelector('#all-times').hidden = false;
+    form.elements.notes.maxLength = Math.max(0,1000-bookingNotes.join('\n').length-2);
+  }
+  let slots = [];
+  let month;
+  let day;
   const formatExpiry = new Intl.DateTimeFormat('en-GB', { timeStyle: 'short', timeZone: 'Europe/London' });
   const newKey = () => Array.from(crypto.getRandomValues(new Uint8Array(32)), byte => byte.toString(16).padStart(2, '0')).join('');
   let key = newKey();
@@ -65,30 +99,29 @@
     }, Math.max(0, Date.parse(slot.expires) - Date.now()));
   }
 
-  async function load() {
-    const data = await request();
-    customer = data.customer;
-    document.querySelector('#guest-details').hidden = Boolean(customer);
-    for (const name of ['name','email']) {
-      form.elements[name].disabled = Boolean(customer);
-    }
-    document.querySelector('#booking-identity').textContent = customer ? 'Booking as ' + customer.name + '.' : 'Booking as a guest.';
+  function shiftMonth(value, offset) {
+    const date = new Date(value + '-01T12:00:00Z');
+    date.setUTCMonth(date.getUTCMonth()+offset);
+    return date.toISOString().slice(0,7);
+  }
+
+  function renderTimes() {
     list.replaceChildren();
-    if (!data.slots.length) list.append(node('p', 'There are no other appointments available. Check back or contact Holostasis.'));
-    for (const slot of data.slots) {
-      const card = node('article', '', 'appointment');
-      card.append(node('h3', slot.service), node('p', label(slot)));
-      const select = node('button', 'Hold this time', 'button ghost');
+    timeLabel.textContent = day ? 'Times for ' + formatDay.format(new Date(day+'T12:00:00Z')) : 'Select an available date.';
+    const available = slots.filter(slot => slot.day===day);
+    if (day && !available.length) timeLabel.textContent = 'There are no other times for this date.';
+    for (const slot of available) {
+      const select = node('button',slot.time+'–'+slot.end_time+(quote?'':' · '+slot.service),'button ghost');
       select.type = 'button';
       select.addEventListener('click', () => run(select, async () => {
         document.querySelector('#booking-done').hidden = true;
         try {
-          const result = await request({ action: 'hold', id: slot.id, key });
-          showHold({ ...slot, expires: result.expires });
+          const result = await request({ action:'hold', id:slot.id, key });
+          showHold({ ...slot, expires:result.expires });
           message.textContent = 'Your appointment time is held.';
-          details.scrollIntoView({ block: 'nearest' });
+          details.scrollIntoView({ block:'nearest' });
         } catch (error) {
-          if (error.status === 409) {
+          if (error.status===409) {
             showHold(null);
             await load();
           }
@@ -96,9 +129,61 @@
         }
         await load();
       }));
-      card.append(select);
-      list.append(card);
+      list.append(select);
     }
+  }
+
+  function renderCalendar() {
+    monthPanel.hidden = !slots.length;
+    if (!slots.length) {
+      list.replaceChildren();
+      timeLabel.textContent = quote
+        ? 'There are no published times for '+quote.pack.name+' yet. Check back or contact Holostasis.'
+        : 'There are no available appointments right now. Check back or contact Holostasis.';
+      return;
+    }
+    const firstMonth = slots[0].day.slice(0,7);
+    const lastMonth = slots[slots.length-1].day.slice(0,7);
+    if (!month || month<firstMonth || month>lastMonth) month = firstMonth;
+    if (day && !day.startsWith(month+'-')) day = null;
+    const days = new Set(slots.map(slot => slot.day));
+    const first = new Date(month+'-01T12:00:00Z');
+    document.querySelector('#booking-month-title').textContent = formatMonth.format(first);
+    previous.disabled = month===firstMonth;
+    next.disabled = month===lastMonth;
+    dateButtons.replaceChildren();
+    for (let i=0;i<(first.getUTCDay()+6)%7;i++) dateButtons.append(node('span',''));
+    for (let date=first; date.toISOString().slice(0,7)===month; date.setUTCDate(date.getUTCDate()+1)) {
+      const value = date.toISOString().slice(0,10);
+      const button = node('button',String(date.getUTCDate()),'booking-day');
+      button.type = 'button';
+      button.disabled = !days.has(value);
+      button.dataset.day = value;
+      button.setAttribute('aria-label',formatDay.format(date)+(button.disabled?', unavailable':', available'));
+      button.setAttribute('aria-pressed',String(value===day));
+      button.addEventListener('click',() => {
+        day = value;
+        for (const option of dateButtons.querySelectorAll('button')) {
+          option.setAttribute('aria-pressed',String(option.dataset.day===day));
+        }
+        renderTimes();
+      });
+      dateButtons.append(button);
+    }
+    renderTimes();
+  }
+
+  previous.addEventListener('click',() => { month = shiftMonth(month,-1); day = null; renderCalendar(); });
+  next.addEventListener('click',() => { month = shiftMonth(month,1); day = null; renderCalendar(); });
+
+  async function load() {
+    const data = await request();
+    customer = data.customer;
+    document.querySelector('#guest-details').hidden = Boolean(customer);
+    for (const name of ['name','email']) form.elements[name].disabled = Boolean(customer);
+    document.querySelector('#booking-identity').textContent = customer ? 'Booking as '+customer.name+'.' : 'Booking as a guest.';
+    slots = data.slots.filter(matches).sort((left,right) => (left.day+left.time).localeCompare(right.day+right.time));
+    renderCalendar();
   }
 
   async function run(button, work) {
@@ -124,6 +209,7 @@
     const slot = held;
     run(submit, async () => {
       const data = Object.fromEntries(new FormData(form));
+      if (bookingNotes?.length) data.notes = [...bookingNotes,data.notes].filter(Boolean).join('\n');
       try {
         await request({ ...data, action: 'book', id: slot.id, key, asGuest: !customer });
       } catch (error) {
@@ -162,12 +248,15 @@
   run(null, async () => {
     await load();
     const saved = savedHold();
-    if (saved) {
-      key = saved.key;
+    if (saved) key = saved.key;
+    if (saved && matches(saved.slot)) {
+      day = saved.slot.day;
+      month = day.slice(0,7);
       showHold(saved.slot);
+      renderCalendar();
       message.textContent = 'Finish booking your held appointment.';
     } else {
-      message.textContent = 'Select an available appointment below.';
+      message.textContent = slots.length ? 'Choose an available date, then pick a time.' : '';
     }
   });
 })();

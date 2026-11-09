@@ -3,14 +3,26 @@
 
   const links = document.querySelectorAll('[data-account-nav]');
   if (!links.length) return;
+  const hintKey = 'holostasis-profile';
+
+  function show(signedIn) {
+    for (const link of links) link.textContent = signedIn ? 'Profile' : 'Log in';
+  }
+
+  try { show(sessionStorage.getItem(hintKey) === '1'); }
+  catch { /* The server still checks the session. */ }
 
   async function update() {
-    let signedIn = false;
     try {
-      const response = await fetch('/api/customer-account?session=1', { cache:'no-store' });
-      signedIn = response.ok && Boolean((await response.json()).customer);
-    } catch { /* The login link remains available if the network fails. */ }
-    for (const link of links) link.textContent = signedIn ? 'My Bookings' : 'Log in';
+      const response = await fetch('/api/customer-account?session=1', { cache:'no-store', credentials:'same-origin' });
+      if (response.status !== 401 && !response.ok) return;
+      const signedIn = response.ok && Boolean((await response.json()).customer);
+      show(signedIn);
+      try { sessionStorage.setItem(hintKey, signedIn ? '1' : '0'); }
+      catch { /* The server still checks the session. */ }
+    } catch { /* A temporary network error does not change the navigation. */ }
   }
-  addEventListener('pageshow', update);
+
+  update();
+  addEventListener('pageshow', event => { if (event.persisted) update(); });
 })();

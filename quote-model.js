@@ -47,6 +47,41 @@
     return lines;
   }
 
+  function vehicleLines(clean, size, petHair, includesPetHair) {
+    const lines = [];
+    if (clean && clean !== 'none' && size === 'medium') lines.push({label:'Medium vehicle allowance',min:10,max:10});
+    if (clean && clean !== 'none' && size === 'large') lines.push({label:'Large vehicle allowance',min:10,max:25});
+    if ((clean === 'interior' || clean === 'both') && petHair && !includesPetHair) lines.push({label:'Pet hair removal',min:15,max:40});
+    return lines;
+  }
+
+  function estimatePackage(id, input = {}) {
+    const pack = packages.find(p => p.id === id && p.extraPrice === undefined);
+    if (!pack) return null;
+    const size = ['small','medium','large'].includes(input.size) ? input.size : 'small';
+    const photo = pack.clean && !pack.photos ? photography.find(p => p.photos === Number(input.photos)) : null;
+    const includesReel = pack === photoReel || pack === signature;
+    const shortReels = Number(input.shortReels || 0);
+    const longVideos = Number(input.longVideos || 0);
+    if (![shortReels,longVideos].every(n => Number.isSafeInteger(n) && n>=0) ||
+        !Number.isSafeInteger(shortReels*shortEdit.price + longVideos*longEdit.price + 500)) return null;
+    const canAddVideo = Boolean(pack.clean || pack.minutes || includesReel);
+    const requestedFilming = Number(input.filming);
+    const filmingMinutes = requestedFilming === 90 ? 90 : requestedFilming === 45 ? 45 : 0;
+    const filming = pack.clean && !includesReel &&
+      (filmingMinutes || shortReels || longVideos)
+      ? filmingSessions.find(p => p.minutes === (filmingMinutes || 45)) : null;
+    const edits = canAddVideo ? videoEdits(shortReels,longVideos,includesReel) : [];
+    const lines = [pack,photo,filming,...edits].filter(Boolean)
+      .map(p => ({label:p.name,min:p.price,max:p.price}));
+    lines.push(...vehicleLines(pack.clean,size,input.petHair,pack.includesPetHair));
+    return {
+      pack, lines,
+      min:lines.reduce((total,line) => total+line.min,0),
+      max:lines.reduce((total,line) => total+line.max,0),
+    };
+  }
+
   function estimate(input) {
     const clean = input.clean || 'none';
     const condition = input.condition || 'normal';
@@ -98,9 +133,7 @@
     candidates.sort((a,b) => cost(a)-cost(b) || a.length-b.length);
     const chosen = candidates[0];
     const lines = chosen.map(p => ({label:p.name,min:p.price,max:p.price,scope:p.scope}));
-    if (clean !== 'none' && size === 'medium') lines.push({label:'Medium vehicle allowance',min:10,max:10});
-    if (clean !== 'none' && size === 'large') lines.push({label:'Large vehicle allowance',min:10,max:25});
-    if ((clean === 'interior' || clean === 'both') && input.petHair && !chosen.some(p => p.includesPetHair)) lines.push({label:'Pet hair removal',min:15,max:40});
+    lines.push(...vehicleLines(clean,size,input.petHair,chosen.some(p => p.includesPetHair)));
 
     const notes = ['Indicative estimate. The final total, including return travel, is confirmed from your postcode and agreed before booking.'];
     if (clean !== 'none') notes.push('Cleaning is subject to suitable access, water and power, and an agreed wash-water arrangement.');
@@ -118,7 +151,7 @@
       ids:chosen.map(p => p.id)
     };
   }
-  const api = {packages,estimate,money};
+  const api = {packages,estimate,estimatePackage,money};
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
   root.HolostasisQuote = api;
 })(typeof globalThis !== 'undefined' ? globalThis : this);

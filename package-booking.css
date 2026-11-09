@@ -1,0 +1,30 @@
+.package-section [hidden], .booking-picker [hidden] { display: none !important; }
+.package-grid { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 1rem; margin-block: 1rem; }
+.package-card { display: flex; flex-direction: column; align-items: flex-start; gap: .5rem; min-width: 0; padding: 1rem; border: 1px solid var(--line); border-radius: .75rem; }
+.package-card h3, .package-card p { margin: 0; }
+.package-card .button { margin-top: auto; min-height: 44px; justify-content: center; text-align: center; }
+.package-card .button[aria-pressed="true"] { outline: 2px solid var(--steel); outline-offset: 2px; }
+.package-price, .package-estimate { color: var(--steel); font-weight: 700; }
+.package-options { max-width: 42rem; margin-block: 1.5rem; padding: 1.25rem; border: 1px solid var(--line); border-radius: .75rem; }
+.package-options h3 { scroll-margin-top: 6rem; }
+.package-extra-fields { padding-top: .75rem; }
+.package-section :is(input:not([type="checkbox"]),select) { min-height: 44px; font-size: 16px; }
+.package-section summary { min-height: 44px; align-content: center; cursor: pointer; }
+.booking-picker { max-width: 42rem; }
+.booking-month-nav { display: grid; grid-template-columns: 44px 1fr 44px; gap: .5rem; align-items: center; text-align: center; }
+.booking-month-nav .button { padding: .25rem; justify-content: center; min-height: 44px; }
+.booking-days { display: grid; grid-template-columns: repeat(7,minmax(0,1fr)); gap: .25rem; margin-block: .75rem; }
+.booking-days span { text-align: center; font-size: .75rem; color: var(--muted); }
+.booking-day { min-height: 44px; border: 1px solid var(--line); border-radius: .5rem; color: inherit; background: transparent; font: inherit; padding: .15rem; }
+.booking-day:disabled { opacity: .35; cursor: default; }
+.booking-day:not(:disabled) { border-color: var(--steel); }
+.booking-day[aria-pressed="true"] { background: var(--steel); color: #111; }
+.booking-times { display: grid; gap: .5rem; }
+.booking-times .button { justify-content: flex-start; min-height: 44px; white-space: normal; text-align: left; }
+#reserve-form :is(input:not([type="checkbox"]),textarea) { font-size: 16px; min-height: 44px; }
+@media (max-width: 860px) { .package-grid { grid-template-columns: repeat(2,minmax(0,1fr)); } }
+@media (max-width: 580px) {
+  .package-grid { grid-template-columns: 1fr; }
+  .package-card .button { width: 100%; }
+  .package-options { padding: .9rem; }
+}

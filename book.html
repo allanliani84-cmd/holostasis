@@ -8,8 +8,10 @@
   <link rel="icon" href="favicon.ico">
   <link rel="stylesheet" href="styles.css?v=phone3">
   <link rel="stylesheet" href="account.css?v=1">
-  <script src="account-nav.js?v=1" defer></script>
-  <script src="book.js?v=2" defer></script>
+  <script src="account-nav.js?v=profile1" defer></script>
+  <link rel="stylesheet" href="package-booking.css?v=1">
+  <script src="quote-model.js?v=package1" defer></script>
+  <script src="book.js?v=calendar2" defer></script>
 </head>
 <body>
   <main class="account-shell">
@@ -18,12 +20,29 @@
       <p class="eyebrow">Holostasis Automotive</p>
       <h1>Book a service</h1>
       <p>Choose an available appointment to hold it for 10 minutes while you finish booking. Times are shown in UK local time.</p>
+      <p id="booking-package" class="package-estimate" hidden></p>
+      <p id="booking-package-options" hidden></p>
       <p id="booking-status" role="status">Checking availability…</p>
     </section>
-    <section class="glass">
-      <h2>Available appointments</h2>
-      <div class="account-actions"><button id="refresh-times" class="button ghost" type="button">Refresh times</button></div>
-      <div id="available-times" class="account-list"></div>
+    <section class="glass booking-picker">
+      <h2>Choose a date and time</h2>
+      <div id="booking-month" hidden>
+        <div class="booking-month-nav">
+          <button id="booking-previous" class="button ghost" type="button" aria-label="Previous month">‹</button>
+          <strong id="booking-month-title" aria-live="polite"></strong>
+          <button id="booking-next" class="button ghost" type="button" aria-label="Next month">›</button>
+        </div>
+        <div class="booking-days" aria-hidden="true">
+          <span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span>
+        </div>
+        <div id="booking-days" class="booking-days"></div>
+      </div>
+      <p id="booking-times-label" aria-live="polite"></p>
+      <div id="available-times" class="booking-times"></div>
+      <div class="account-actions">
+        <button id="refresh-times" class="button ghost" type="button">Refresh times</button>
+        <a id="all-times" href="book.html" hidden>View all services and times</a>
+      </div>
     </section>
     <section id="booking-details" class="glass" hidden>
       <h2>Finish booking</h2>
@@ -51,7 +70,7 @@
     <section id="booking-done" class="glass" hidden>
       <h2>Appointment booked</h2>
       <p id="booking-confirmation"></p>
-      <p id="booking-account-link" hidden>View this appointment in <a href="account.html">My Bookings</a>.</p>
+      <p id="booking-account-link" hidden>View this appointment in <a href="account.html">your profile</a>.</p>
     </section>
   </main>
 </body>

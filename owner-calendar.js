@@ -4,6 +4,10 @@
   const message = document.querySelector('#calendar-status');
   const form = document.querySelector('#slot-form');
   const list = document.querySelector('#owner-slots');
+  const names = document.querySelector('#calendar-package-names');
+  for (const pack of window.HolostasisQuote.packages.filter(pack => pack.extraPrice === undefined)) {
+    names.append(new Option(pack.name,pack.name));
+  }
 
   function node(tag, value) {
     const el = document.createElement(tag);
